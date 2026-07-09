@@ -1,0 +1,204 @@
+.app__skills {
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+}
+
+.app__skills-container {
+  width: 80%;
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: row;
+
+  @media screen and (max-width: 900px) {
+    width: 100%;
+    flex-direction: column;
+  }
+}
+
+.app__skills-list {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-right: 5rem;
+
+  @media screen and (max-width: 900px) {
+    margin-right: 0;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.app__skills-item {
+  flex-direction: column;
+  text-align: center;
+  margin: 1rem;
+
+  transition: all ease-in-out;
+
+  div {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background-color: var(--white-color);
+
+    img {
+      width: 50%;
+      height: 50%;
+      object-fit: contain;
+    }
+
+    &:hover {
+      box-shadow: 0 0 25px #fef4f5;
+    }
+    @media screen and (min-width: 2000px) {
+      width: 150px;
+      height: 150px;
+    }
+    @media screen and (max-width: 900px) {
+      width: 75px;
+      height: 75px;
+    }
+  }
+
+  p {
+    font-weight: 500;
+    margin: 0.5rem;
+  }
+
+  @media screen and (min-width: 2000px) {
+    margin: 1rem 2rem;
+    p {
+      margin-top: 1rem;
+    }
+  }
+}
+
+.app__skills-exp {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  @media screen and (max-width: 900px) {
+    margin-top: 3rem;
+  }
+}
+
+.app__timeline {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.app__timeline-item {
+  position: relative;
+  display: flex;
+  gap: 1.25rem;
+  padding-bottom: 2.25rem;
+  cursor: pointer;
+
+  // The connecting line runs down the marker column and reaches the next dot.
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0.5rem;
+    left: 8px;
+    width: 2px;
+    height: 100%;
+    background: var(--lightGray-color);
+  }
+
+  &:last-child {
+    padding-bottom: 0;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  &:hover .app__timeline-dot {
+    background: var(--secondary-color);
+    box-shadow: 0 0 0 5px rgba(49, 59, 172, 0.12);
+  }
+
+  &:hover .app__timeline-period {
+    color: var(--secondary-color);
+  }
+}
+
+.app__timeline-marker {
+  position: relative;
+  flex-shrink: 0;
+  width: 18px;
+  display: flex;
+  justify-content: center;
+}
+
+.app__timeline-dot {
+  position: relative;
+  z-index: 1;
+  width: 16px;
+  height: 16px;
+  margin-top: 0.35rem;
+  border-radius: 50%;
+  background: var(--white-color);
+  border: 3px solid var(--secondary-color);
+  transition: all 0.25s ease-in-out;
+}
+
+.app__timeline-content {
+  padding-top: 0.1rem;
+
+  .app__timeline-period {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--gray-color);
+    transition: color 0.25s ease-in-out;
+  }
+
+  h4 {
+    font-weight: 600;
+    margin-top: 0.35rem;
+  }
+
+  .app__timeline-company {
+    font-weight: 500;
+    color: var(--gray-color);
+    margin-top: 0.15rem;
+  }
+
+  @media screen and (min-width: 2000px) {
+    .app__timeline-period {
+      font-size: 1.1rem;
+    }
+  }
+}
+
+.skills-tooltip {
+  max-width: 300px !important;
+  background-color: var(--white-color) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12) !important;
+  border-left: 3px solid var(--secondary-color) !important;
+  border-radius: 8px !important;
+  padding: 0.85rem 1.1rem !important;
+  color: var(--gray-color) !important;
+  text-align: left !important;
+  line-height: 1.6 !important;
+  font-weight: 400 !important;
+  opacity: 1 !important;
+
+  @media screen and (min-width: 2000px) {
+    font-size: 1.75rem !important;
+    max-width: 500px !important;
+    line-height: 1.8 !important;
+    padding: 1.25rem 1.5rem !important;
+  }
+}

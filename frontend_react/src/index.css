@@ -1,0 +1,83 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
+
+:root {
+  --font-base: "DM Sans", sans-serif;
+
+  --primary-color: #edf2f8;
+  --secondary-color: #313bac;
+  --black-color: #030303;
+  --lightGray-color: #e4e4e4;
+  --gray-color: #6b7688;
+  --brown-color: #46364a;
+  --white-color: #ffffff;
+
+  /* Surface tint behind skill icons / image letterboxes */
+  --skill-bg: #f4f8fe;
+}
+
+/* Dark theme — toggled by setting data-theme="dark" on <html>. Every color
+   the UI uses resolves through these variables, so flipping them here recolors
+   the whole site. A few background images are overridden further down. */
+:root[data-theme="dark"] {
+  --primary-color: #0e0f13;
+  --secondary-color: #8b93ff;
+  --black-color: #e8eaed;
+  --lightGray-color: #2c2f3a;
+  --gray-color: #9aa4b2;
+  --brown-color: #cbb8d6;
+  --white-color: #191b22;
+
+  --skill-bg: #232635;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  /* Anchor the page background to the theme so an elastic scroll past the top
+     of #home reveals the same color instead of the browser's default white. */
+  background-color: var(--primary-color);
+}
+
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+img {
+  pointer-events: none;
+}
+
+/* ---- Dark-mode overrides for elements that use background images or
+   light-only gradients (variables alone can't recolor these). ---- */
+:root[data-theme="dark"] #home {
+  background: var(--primary-color);
+}
+
+:root[data-theme="dark"] .app__header-badge .header-photo {
+  background: radial-gradient(circle at 50% 32%, #2a2f45 0%, #14161d 100%);
+  /* The white ring is intentional in light mode; in dark mode --white-color
+     (#191b22) is lighter than the #home background and reads as a stray light
+     outline, so blend the border into the page. */
+  border-color: var(--primary-color);
+}
+
+/* Case-study paragraphs use a fixed dark ink that disappears against the dark
+   modal surface — flip them to the theme's readable foreground. */
+:root[data-theme="dark"] .app__work-modal-content .p-text {
+  color: var(--black-color);
+}
+
+/* The heading underline (near-transparent black) is invisible in dark mode. */
+:root[data-theme="dark"] .app__work-modal-heading {
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Mobile slide-out menu uses a light texture image by default */
+:root[data-theme="dark"] .app__navbar-menu div {
+  background: var(--white-color);
+}

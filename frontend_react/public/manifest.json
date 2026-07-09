@@ -1,0 +1,20 @@
+{
+  "short_name": "Abdullah",
+  "name": "Abdullah Naeem | Portfolio",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "favicon-A.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    }
+  ],
+  "start_url": ".",
+  "display": "browser",
+  "theme_color": "#0f172a",
+  "background_color": "#0f172a"
+}

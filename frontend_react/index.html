@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <script>
+      // Set the theme before paint to avoid a flash of the wrong theme.
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme");
+          var theme =
+            stored ||
+            (window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light");
+          document.documentElement.setAttribute("data-theme", theme);
+        } catch (e) {}
+      })();
+    </script>
+    <link rel="icon" href="/favicon-A.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0f172a" />
+    <title>M. Abdullah Naeem | Full-Stack &amp; Applied ML Developer</title>
+    <meta
+      name="description"
+      content="M. Abdullah Naeem — a full-stack developer building considered web experiences and applied machine learning systems: federated-learning diagnostics, RAG platforms, and LLM agents."
+    />
+    <meta name="author" content="M. Abdullah Naeem" />
+    <link rel="canonical" href="https://abdullah-naeem-dev-portfolio.vercel.app/" />
+    <link rel="apple-touch-icon" href="/favicon-A.svg" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Open Graph / Facebook / LinkedIn -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://abdullah-naeem-dev-portfolio.vercel.app/" />
+    <meta property="og:site_name" content="M. Abdullah Naeem" />
+    <meta
+      property="og:title"
+      content="M. Abdullah Naeem | Full-Stack & Applied ML Developer"
+    />
+    <meta
+      property="og:description"
+      content="Full-stack developer building considered web experiences and applied ML systems — federated-learning diagnostics, RAG platforms, and LLM agents."
+    />
+    <meta property="og:image" content="https://abdullah-naeem-dev-portfolio.vercel.app/preview.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="M. Abdullah Naeem — Full-Stack & Applied ML Developer"
+    />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="M. Abdullah Naeem | Full-Stack & Applied ML Developer"
+    />
+    <meta
+      name="twitter:description"
+      content="Full-stack developer building considered web experiences and applied ML systems — federated-learning diagnostics, RAG platforms, and LLM agents."
+    />
+    <meta name="twitter:image" content="https://abdullah-naeem-dev-portfolio.vercel.app/preview.png" />
+  </head>
+  <body>
+    <noscript>
+      <!--
+        Real, crawlable content for visitors and bots that don't run
+        JavaScript. The interactive app below replaces this once React
+        mounts; search engines that do execute JS (e.g. Googlebot) will see
+        both and prefer the rendered app.
+      -->
+      <main style="max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem; font-family: sans-serif; line-height: 1.6; color: #111;">
+        <h1>M. Abdullah Naeem</h1>
+        <p><strong>Full-Stack &amp; Applied ML Developer</strong></p>
+
+        <p>
+          I'm a developer who works across the full stack, building products
+          that are both well-designed and technically sound. My focus spans
+          two things: crafting clean, considered web experiences, and
+          building applied machine learning systems that solve real
+          problems &mdash; from a federated learning pipeline for
+          privacy-preserving medical diagnostics to full data-to-dashboard
+          intelligence systems.
+        </p>
+
+        <h2>Projects</h2>
+        <ul>
+          <li><strong>SymptomSense AI</strong> &mdash; Federated-learning cardiac diagnostics, fully private.</li>
+          <li><strong>Churn Radar</strong> &mdash; Predicts which customers will churn and what to do about it.</li>
+          <li><strong>Ask-Your-Database Analytics Agent</strong> &mdash; Plain-English questions turned into live SQL.</li>
+          <li><strong>Car-Snap</strong> &mdash; AI-powered car damage detection, backed by a blockchain audit trail.</li>
+          <li><strong>Aesh.Summer</strong> &mdash; A full e-commerce platform for a clothing brand.</li>
+          <li><strong>Legal Document Intelligence</strong> &mdash; Question any contract, get answers with cited proof.</li>
+          <li><strong>LogiFlow Support Agent</strong> &mdash; Multi-agent system that triages and resolves support tickets.</li>
+        </ul>
+
+        <h2>Skills</h2>
+        <p>
+          PyTorch, FastAPI, LangChain, React, PostgreSQL, JavaScript,
+          Node.js, Docker, Next.js, Django, TensorFlow, Python.
+        </p>
+
+        <h2>Contact</h2>
+        <p>
+          Email: <a href="mailto:Abdullahnaeem175@gmail.com">Abdullahnaeem175@gmail.com</a><br />
+          LinkedIn: <a href="https://www.linkedin.com/in/abdullahnaeem-">linkedin.com/in/abdullahnaeem-</a><br />
+          GitHub: <a href="https://github.com/MuhammadAbdullahNaeem1">github.com/MuhammadAbdullahNaeem1</a>
+        </p>
+
+        <p><em>Enable JavaScript for the full interactive experience.</em></p>
+      </main>
+    </noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/index.jsx"></script>
+  </body>
+</html>
