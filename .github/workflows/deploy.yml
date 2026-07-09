@@ -32,7 +32,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version-file: frontend_react/.nvmrc
+          node-version-file: .nvmrc
           cache: npm
           cache-dependency-path: frontend_react/package-lock.json
 
