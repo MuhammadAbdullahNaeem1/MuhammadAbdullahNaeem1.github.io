@@ -2,7 +2,8 @@
 
 A fully static, code-only portfolio site. All content lives in the codebase as
 data files — there is **no CMS and no runtime API calls**. Built with React +
-Vite and deployed as a static site on Vercel.
+Vite and deployed as a static site on GitHub Pages at
+[muhammadabdullahnaeem1.github.io](https://muhammadabdullahnaeem1.github.io/).
 
 > This started from a React + Sanity template and was migrated to a
 > self-contained static build. Sanity (client, image builder, `backend_sanity/`,
@@ -73,11 +74,18 @@ npm run preview  # preview the production build locally
 - [Framer Motion](https://www.framer.com/motion/) for animations
 - [react-icons](https://react-icons.github.io/react-icons/) for iconography
 
-## Deployment (Vercel)
+## Deployment (GitHub Pages)
+
+Live at **https://muhammadabdullahnaeem1.github.io/**. Published from the
+[`MuhammadAbdullahNaeem1.github.io`](https://github.com/MuhammadAbdullahNaeem1/MuhammadAbdullahNaeem1.github.io)
+repo via GitHub Actions (`.github/workflows/deploy.yml`), which builds
+`frontend_react` and deploys the output. Because this is a **user site** (repo
+named `<username>.github.io`), it is served from the domain root, so no base
+path is needed.
 
 Static build, no server or environment variables required.
 
-- **Root directory:** `frontend_react`
+- **App directory:** `frontend_react`
 - **Build command:** `npm run build`
 - **Output directory:** `build`
 
