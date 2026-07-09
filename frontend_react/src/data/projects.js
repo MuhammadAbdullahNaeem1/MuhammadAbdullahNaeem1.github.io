@@ -11,7 +11,9 @@
 //
 // To reorder how projects appear, reorder this array.
 
-const img = (id, file) => `/projects/${id}/${file}`;
+// BASE_URL is "/" locally and the repo subpath on GitHub Pages; it always ends
+// with a slash, so these resolve correctly wherever the site is served.
+const img = (id, file) => `${import.meta.env.BASE_URL}projects/${id}/${file}`;
 
 const projects = [
   {

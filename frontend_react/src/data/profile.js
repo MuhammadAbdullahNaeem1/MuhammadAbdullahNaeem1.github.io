@@ -26,7 +26,7 @@ export const profile = {
   email: "Abdullahnaeem175@gmail.com",
   calLink: "https://cal.com/abdullah-naeem-j3ehlk/meeting",
   // Drop a resume file at frontend_react/public/resume.pdf to wire up the button.
-  resumeUrl: "/resume.pdf",
+  resumeUrl: `${import.meta.env.BASE_URL}resume.pdf`,
   socials: {
     linkedin: "https://www.linkedin.com/in/abdullahnaeem-",
     github: "https://github.com/MuhammadAbdullahNaeem1",

@@ -1,0 +1,76 @@
+name: Deploy to GitHub Pages
+
+on:
+  # Deploy on every push to main …
+  push:
+    branches: [main]
+  # … and allow manual runs from the Actions tab.
+  workflow_dispatch:
+
+# Permissions the official Pages deploy actions require.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one Pages deploy at a time; don't cancel an in-progress one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        # The Vite app lives in this subfolder, not the repo root.
+        working-directory: frontend_react
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: frontend_react/.nvmrc
+          cache: npm
+          cache-dependency-path: frontend_react/package-lock.json
+
+      # Derive Vite's base path from the repo name so the same workflow works
+      # whether this is a project site (served at /<repo>/) or a user site
+      # (repo named <owner>.github.io, served at /).
+      - name: Compute base path
+        id: base
+        working-directory: .
+        run: |
+          repo=$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')
+          owner=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          if [ "$repo" = "$owner.github.io" ]; then
+            echo "base=/" >> "$GITHUB_OUTPUT"
+          else
+            echo "base=/${{ github.event.repository.name }}/" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        env:
+          VITE_BASE: ${{ steps.base.outputs.base }}
+        run: npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend_react/build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
