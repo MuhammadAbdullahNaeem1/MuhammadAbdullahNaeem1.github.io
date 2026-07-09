@@ -15,6 +15,7 @@ const App = () => {
       <Skills />
       <Contact />
       <Footer />
+      
     </div>
   );
 };
