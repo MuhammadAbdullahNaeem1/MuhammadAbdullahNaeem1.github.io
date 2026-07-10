@@ -82,13 +82,13 @@ export const experience = [
     desc: "Supported instruction for Software Design and Analysis, Databases, and Computer Networks Lab — grading, leading review sessions, and helping students work through difficult technical concepts.",
   },
   {
-    role: "Software Engineer",
+    role: "Software Engineer Intern",
     company: "Wateen Telecom",
     period: "Jun 2024 – Aug 2024",
     desc: "Built a real-time .NET Core application using MVC architecture, including a custom logging system with middleware for automatic HTTP request/response tracking. Logged critical data to SQL and local storage for auditability, and developed APIs to streamline log setup — reducing error detection time by 30% and improving system scalability.",
   },
   {
-    role: "Web Developer",
+    role: "Web Developer Intern",
     company: "FastDev Labs",
     period: "Jun 2023 – Sep 2023",
     desc: "Built full-stack web applications using MongoDB, Express, React, and Node.js, contributing across both frontend interfaces and backend services.",
