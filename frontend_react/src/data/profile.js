@@ -66,13 +66,13 @@ export const experience = [
   {
     role: "Software Developer",
     company: "Techlogix",
-    period: "Apr 2025 – Present",
+    period: "July 2025 – Present",
     desc: "Designed and built AI-driven, full-stack applications by integrating machine learning models into scalable production systems. Developed backend and frontend infrastructure supporting end-to-end ML pipelines, partnering with cross-functional teams to ship data-powered features.",
   },
   {
     role: "Software Developer",
     company: "Contour Software",
-    period: "Mar 2025 – Apr 2025",
+    period: "Mar 2025 – June 2025",
     desc: "Built core features for an Employee Management System using .NET Web APIs and MVC architecture. Applied dependency injection, LINQ, and generics for clean, modular, type-safe code, and developed secure RESTful APIs for CRUD operations while strengthening system stability through robust exception handling.",
   },
   {
@@ -96,7 +96,7 @@ export const experience = [
   {
     role: "Freelance Software Engineer",
     company: "Fiverr",
-    period: "2021 – 2023",
+    period: "Aug 2021 – Dec 2023",
     desc: "Delivered full-cycle software projects for clients — designing, building, debugging, and shipping solutions across multiple stacks, with a strong focus on fast turnaround and reliability.",
   },
 ];
