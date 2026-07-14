@@ -11,6 +11,10 @@ import "./Work.scss";
 const isHeadingBlock = (block) =>
   block.length < 40 && !/[.!?,]$/.test(block) && !block.includes("\n");
 
+// A carousel entry is a video when its URL ends in a known video extension;
+// everything else is treated as an image.
+const isVideoMedia = (media) => /\.(mp4|webm|mov|ogv)$/i.test(media || "");
+
 const renderCaseStudy = (text) => {
   if (!text) return null;
 
@@ -130,6 +134,34 @@ const Work = () => {
   const carouselImages = selectedWork ? getCarouselImages(selectedWork) : [];
   const activeImage = carouselImages[selectedImageIndex] || carouselImages[0];
 
+  const renderMedia = (media) => {
+    if (!media) {
+      return null;
+    }
+
+    if (isVideoMedia(media)) {
+      return (
+        <video
+          key={media}
+          className="app__work-modal-video"
+          src={getImageUrl(media)}
+          controls
+          autoPlay
+          muted
+          loop
+          playsInline
+        />
+      );
+    }
+
+    return (
+      <img
+        src={getImageUrl(media)}
+        alt={`${selectedWork?.title || "Project"} screenshot`}
+      />
+    );
+  };
+
   return (
     <>
       <h2 className="head-text">
@@ -205,10 +237,7 @@ const Work = () => {
                       >
                         <AiOutlineLeft />
                       </button>
-                      <img
-                        src={getImageUrl(activeImage)}
-                        alt={`${selectedWork.title} screenshot`}
-                      />
+                      {renderMedia(activeImage)}
                       <button
                         type="button"
                         className="app__work-modal-nav app__work-modal-nav-right"
@@ -219,12 +248,7 @@ const Work = () => {
                       </button>
                     </>
                   ) : (
-                    activeImage && (
-                      <img
-                        src={getImageUrl(activeImage)}
-                        alt={`${selectedWork.title} screenshot`}
-                      />
-                    )
+                    renderMedia(activeImage)
                   )}
 
                   {carouselImages.length > 1 && (

@@ -221,13 +221,20 @@
   align-items: center;
   gap: 1.1rem;
 
-  img {
+  img,
+  .app__work-modal-video {
     width: 100%;
     max-height: 460px;
     border-radius: 0.85rem;
     object-fit: contain;
     background: var(--skill-bg);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .app__work-modal-video {
+    display: block;
+    background: #000;
+    aspect-ratio: 16 / 9;
   }
 }
 

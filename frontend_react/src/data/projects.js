@@ -5,7 +5,9 @@
 //   title       display name
 //   description short one-liner shown on the project card
 //   metaDescription  used for the document <title>/description when the drawer opens
-//   screenshots carousel images (served statically from /public/projects/<id>/)
+//   screenshots carousel media (served statically from /public/projects/<id>/).
+//               Entries are usually images, but a video file (.mp4/.webm/.mov)
+//               is rendered as an inline player — mix them in any order.
 //   imgUrl      card thumbnail (defaults to the first screenshot)
 //   caseStudy   full write-up; blank lines separate blocks, short lines render as headings
 //
@@ -18,16 +20,20 @@ const img = (id, file) => `${import.meta.env.BASE_URL}projects/${id}/${file}`;
 const projects = [
   {
     id: "symptomsense-ai",
-    title: "SymptomSense AI",
+    title: "AI-Powered Cardiac MRI Diagnostic System",
     description:
       "	Federated-learning cardiac diagnostics, fully private",
     metaDescription:
       "SymptomSense AI — federated-learning cardiac MRI diagnostics for early Hypertrophic Cardiomyopathy detection, built with SwinUNet, a Random Forest classifier, and a Django/Next.js stack.",
+    // Card thumbnail stays an image; the carousel leads with the demo video.
+    imgUrl: img("symptomsense-ai", "1.png"),
     screenshots: [
+      img("symptomsense-ai", "demo.mp4"),
       img("symptomsense-ai", "1.png"),
       img("symptomsense-ai", "2.png"),
       img("symptomsense-ai", "3.png"),
       img("symptomsense-ai", "4.png"),
+      img("symptomsense-ai", "5.png"),
     ],
     caseStudy: `Overview
 
@@ -60,7 +66,10 @@ Next.js, Django, SwinUNet, Random Forest, Federated Learning, TensorFlow, Pandas
       "Multi-agent system that triages and resolves support tickets",
     metaDescription:
       "LogiFlow Support Agent — a LangGraph multi-agent system that triages support tickets by urgency and churn risk, drafts documentation-grounded replies, and escalates to humans when unsure.",
+    // Card thumbnail stays an image; the carousel leads with the demo video.
+    imgUrl: img("logiflow", "1.png"),
     screenshots: [
+      img("logiflow", "demo.mp4"),
       img("logiflow", "1.png"),
       img("logiflow", "2.png"),
       img("logiflow", "3.png"),
@@ -105,12 +114,15 @@ LangGraph, Gemini 2.5 Flash, ChromaDB, sentence-transformers, FastAPI, SQLAlchem
   },
   {
     id: "churn-radar",
-    title: "Churn Radar",
+    title: "AI-Powered Customer Churn Prediction Dashboard",
     description:
       "Predicts which customers will churn and what to do",
     metaDescription:
       "Churn Radar — a customer churn prediction dashboard powered by XGBoost and SHAP, re-scoring the entire customer base nightly with explainable risk tiers and recommended actions.",
+    // Card thumbnail stays an image; the carousel leads with the demo video.
+    imgUrl: img("churn-radar", "1.png"),
     screenshots: [
+      img("churn-radar", "demo.mp4"),
       img("churn-radar", "1.png"),
       img("churn-radar", "2.png"),
       img("churn-radar", "3.png"),
@@ -145,12 +157,18 @@ Next.js, Tailwind, Recharts, FastAPI, XGBoost, scikit-learn, SHAP, pandas, SQLit
   },
   {
     id: "nl2sql",
-    title: "Ask-Your-Database Analytics Agent",
+    title: "AI-Powered-NL2SQL-Analytics-Assistant",
     description:
       "Plain-English questions turned into live SQL",
     metaDescription:
       "NL2SQL Analytics Agent — a ReAct-style LangChain agent that inspects a live PostgreSQL schema, writes and runs SQL from plain-English questions, and returns answers alongside the exact query.",
-    screenshots: [img("nl2sql", "1.png"), img("nl2sql", "2.png")],
+    // Card thumbnail stays an image; the carousel leads with the demo video.
+    imgUrl: img("nl2sql", "1.png"),
+    screenshots: [
+      img("nl2sql", "demo.mp4"),
+      img("nl2sql", "1.png"),
+      img("nl2sql", "2.png"),
+    ],
     caseStudy: `Overview
 
 NL2SQL Analytics Agent lets non-technical business users query a real PostgreSQL database by typing questions in plain English. An LLM agent inspects the live schema, writes SQL, executes it, and returns a plain-language answer alongside the exact query it ran and the results table. It's built on the Olist Brazilian e-commerce dataset: nine related tables covering orders, customers, products, sellers, payments, and reviews.
@@ -224,7 +242,15 @@ React, Vite, Tailwind, FastAPI, PostgreSQL, SQLAlchemy, LangChain, Groq, Llama 3
       "A full e-commerce platform for a clothing brand.",
     metaDescription:
       "Aesh.Summer — a full e-commerce platform for a clothing brand built with Next.js and MongoDB, balancing product discovery and checkout with a distinct brand identity.",
-    screenshots: [img("aesh-summer", "1.png"), img("aesh-summer", "2.png")],
+    // Card thumbnail stays an image; the carousel leads with the demo video.
+    imgUrl: img("aesh-summer", "1.png"),
+    screenshots: [
+      img("aesh-summer", "demo.mp4"),
+      img("aesh-summer", "1.png"),
+      img("aesh-summer", "2.png"),
+      img("aesh-summer", "3.png"),
+      img("aesh-summer", "4.png"),
+    ],
     caseStudy: `Overview
 
 Aesh.Summer is a full e-commerce platform built for a clothing brand, designed to feel less like a generic online store and more like an extension of the brand itself. Built with Next.js on the frontend and MongoDB on the backend, it handles everything from product discovery to checkout while putting brand identity front and center.
@@ -251,12 +277,15 @@ Next.js, React, Node.js, MongoDB, Styled Components`,
   },
   {
     id: "legal-doc-intelligence",
-    title: "Legal Document Intelligence",
+    title: "Legal Document Intelligence Platform RAG",
     description:
       "Question any contract, get answers with cited proof",
     metaDescription:
       "Legal Document Intelligence — a RAG platform for querying contracts and NDAs in plain English, with a two-stage retrieval pipeline that cites the exact quoted passage and page for every answer.",
+    // Card thumbnail stays an image; the carousel leads with the demo video.
+    imgUrl: img("legal-doc-intelligence", "1.png"),
     screenshots: [
+      img("legal-doc-intelligence", "demo.mp4"),
       img("legal-doc-intelligence", "1.png"),
       img("legal-doc-intelligence", "2.png"),
     ],
