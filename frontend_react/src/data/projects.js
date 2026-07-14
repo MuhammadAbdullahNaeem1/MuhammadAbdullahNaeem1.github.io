@@ -26,7 +26,7 @@ const projects = [
     metaDescription:
       "SymptomSense AI — federated-learning cardiac MRI diagnostics for early Hypertrophic Cardiomyopathy detection, built with SwinUNet, a Random Forest classifier, and a Django/Next.js stack.",
     // Card thumbnail stays an image; the carousel leads with the demo video.
-    imgUrl: img("symptomsense-ai", "1.png"),
+    imgUrl: img("symptomsense-ai", "thumb.webp"),
     screenshots: [
       img("symptomsense-ai", "demo.mp4"),
       img("symptomsense-ai", "1.png"),
@@ -61,13 +61,13 @@ Next.js, Django, SwinUNet, Random Forest, Federated Learning, TensorFlow, Pandas
   },
     {
     id: "logiflow",
-    title: "LogiFlow Support Agent",
+    title: "AI-Powered Customer Churn Prediction Dashboard",
     description:
       "Multi-agent system that triages and resolves support tickets",
     metaDescription:
       "LogiFlow Support Agent — a LangGraph multi-agent system that triages support tickets by urgency and churn risk, drafts documentation-grounded replies, and escalates to humans when unsure.",
     // Card thumbnail stays an image; the carousel leads with the demo video.
-    imgUrl: img("logiflow", "1.png"),
+    imgUrl: img("logiflow", "thumb.webp"),
     screenshots: [
       img("logiflow", "demo.mp4"),
       img("logiflow", "1.png"),
@@ -120,7 +120,7 @@ LangGraph, Gemini 2.5 Flash, ChromaDB, sentence-transformers, FastAPI, SQLAlchem
     metaDescription:
       "Churn Radar — a customer churn prediction dashboard powered by XGBoost and SHAP, re-scoring the entire customer base nightly with explainable risk tiers and recommended actions.",
     // Card thumbnail stays an image; the carousel leads with the demo video.
-    imgUrl: img("churn-radar", "1.png"),
+    imgUrl: img("churn-radar", "thumb.webp"),
     screenshots: [
       img("churn-radar", "demo.mp4"),
       img("churn-radar", "1.png"),
@@ -157,13 +157,13 @@ Next.js, Tailwind, Recharts, FastAPI, XGBoost, scikit-learn, SHAP, pandas, SQLit
   },
   {
     id: "nl2sql",
-    title: "AI-Powered-NL2SQL-Analytics-Assistant",
+    title: "AI-Powered NL2SQL Analytics Assistant",
     description:
       "Plain-English questions turned into live SQL",
     metaDescription:
       "NL2SQL Analytics Agent — a ReAct-style LangChain agent that inspects a live PostgreSQL schema, writes and runs SQL from plain-English questions, and returns answers alongside the exact query.",
     // Card thumbnail stays an image; the carousel leads with the demo video.
-    imgUrl: img("nl2sql", "1.png"),
+    imgUrl: img("nl2sql", "thumb.webp"),
     screenshots: [
       img("nl2sql", "demo.mp4"),
       img("nl2sql", "1.png"),
@@ -237,13 +237,13 @@ React, Vite, Tailwind, FastAPI, PostgreSQL, SQLAlchemy, LangChain, Groq, Llama 3
 //   },
   {
     id: "aesh-summer",
-    title: "Aesh.Summer",
+    title: "Brand-Centric E-Commerce Platform",
     description:
       "A full e-commerce platform for a clothing brand.",
     metaDescription:
       "Aesh.Summer — a full e-commerce platform for a clothing brand built with Next.js and MongoDB, balancing product discovery and checkout with a distinct brand identity.",
     // Card thumbnail stays an image; the carousel leads with the demo video.
-    imgUrl: img("aesh-summer", "1.png"),
+    imgUrl: img("aesh-summer", "thumb.webp"),
     screenshots: [
       img("aesh-summer", "demo.mp4"),
       img("aesh-summer", "1.png"),
@@ -283,7 +283,7 @@ Next.js, React, Node.js, MongoDB, Styled Components`,
     metaDescription:
       "Legal Document Intelligence — a RAG platform for querying contracts and NDAs in plain English, with a two-stage retrieval pipeline that cites the exact quoted passage and page for every answer.",
     // Card thumbnail stays an image; the carousel leads with the demo video.
-    imgUrl: img("legal-doc-intelligence", "1.png"),
+    imgUrl: img("legal-doc-intelligence", "thumb.webp"),
     screenshots: [
       img("legal-doc-intelligence", "demo.mp4"),
       img("legal-doc-intelligence", "1.png"),

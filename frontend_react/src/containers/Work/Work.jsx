@@ -158,6 +158,7 @@ const Work = () => {
       <img
         src={getImageUrl(media)}
         alt={`${selectedWork?.title || "Project"} screenshot`}
+        decoding="async"
       />
     );
   };
@@ -177,11 +178,15 @@ const Work = () => {
             className="app__work-item app__flex"
             key={index}
             onClick={() => handleOpenModal(work)}
-            onTouchStart={() => handleOpenModal(work)}
           >
             <div className="app__work-img app__flex">
               {work.imgUrl && (
-                <img src={getImageUrl(work.imgUrl)} alt={work.title} />
+                <img
+                  src={getImageUrl(work.imgUrl)}
+                  alt={work.title}
+                  loading="lazy"
+                  decoding="async"
+                />
               )}
             </div>
             <div className="app__work-content app__flex">

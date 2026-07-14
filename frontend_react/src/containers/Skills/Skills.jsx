@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
 
 import { AppWrap, MotionWrap } from "../../wrapper";
 import { skills, experience } from "../../data/profile";
@@ -86,7 +87,14 @@ const Skills = () => {
                     <h4 className="bold-text">{exp.role}</h4>
                     <p className="p-text app__timeline-company">{exp.company}</p>
                   </div>
-                  <ReactTooltip id={tooltipId} className="skills-tooltip">
+                  <ReactTooltip
+                    id={tooltipId}
+                    className="skills-tooltip"
+                    place="left"
+                    noArrow
+                    opacity={1}
+                    delayShow={80}
+                  >
                     {exp.desc}
                   </ReactTooltip>
                 </motion.div>
