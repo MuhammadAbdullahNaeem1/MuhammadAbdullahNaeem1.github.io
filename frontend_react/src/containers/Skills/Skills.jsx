@@ -69,38 +69,36 @@ const Skills = () => {
         </motion.div>
         <motion.div className="app__skills-exp">
           <div className="app__timeline">
-            {experience?.map((exp, index) => {
-              const tooltipId = `exp-${index}`;
-              return (
-                <motion.div
-                  className="app__timeline-item"
-                  key={tooltipId}
-                  whileInView={{ opacity: [0, 1], x: [-40, 0] }}
-                  transition={{ duration: 0.5, delay: index * 0.05 }}
-                  data-tooltip-id={tooltipId}
-                >
-                  <div className="app__timeline-marker">
-                    <span className="app__timeline-dot" />
-                  </div>
-                  <div className="app__timeline-content">
-                    <span className="app__timeline-period">{exp.period}</span>
-                    <h4 className="bold-text">{exp.role}</h4>
-                    <p className="p-text app__timeline-company">{exp.company}</p>
-                  </div>
-                  <ReactTooltip
-                    id={tooltipId}
-                    className="skills-tooltip"
-                    place="left"
-                    noArrow
-                    opacity={1}
-                    delayShow={80}
-                  >
-                    {exp.desc}
-                  </ReactTooltip>
-                </motion.div>
-              );
-            })}
+            {experience?.map((exp, index) => (
+              <motion.div
+                className="app__timeline-item"
+                key={`exp-${index}`}
+                whileInView={{ opacity: [0, 1], x: [-40, 0] }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                data-tooltip-id="exp-tooltip"
+                data-tooltip-content={exp.desc}
+              >
+                <div className="app__timeline-marker">
+                  <span className="app__timeline-dot" />
+                </div>
+                <div className="app__timeline-content">
+                  <span className="app__timeline-period">{exp.period}</span>
+                  <h4 className="bold-text">{exp.role}</h4>
+                  <p className="p-text app__timeline-company">{exp.company}</p>
+                </div>
+              </motion.div>
+            ))}
           </div>
+          {/* One shared tooltip instance that repositions to whichever item is
+              hovered — so only a single description can ever be on screen. */}
+          <ReactTooltip
+            id="exp-tooltip"
+            className="skills-tooltip"
+            place="left"
+            noArrow
+            opacity={1}
+            delayShow={80}
+          />
         </motion.div>
       </div>
     </>

@@ -182,11 +182,18 @@
   }
 }
 
-// Floating description shown when an experience item is hovered. Show/hide and
-// positioning are handled by react-tooltip's own stylesheet; we only restyle
-// the card so it matches the site (never force `opacity`, or it can't hide).
+// Floating description shown when an experience item is hovered. react-tooltip
+// mounts this element ONLY while an item is hovered and removes it from the DOM
+// on mouse-leave (a timed unmount, not a transition), so appearance/removal is
+// driven by mount/unmount — not opacity. We therefore keep it fully opaque and
+// skip the fade: the old setup relied on an opacity transition that could stick
+// at 0 (invisible) in some browsers, and its blanket `opacity: 1` — combined
+// with the never-imported react-tooltip stylesheet — is what left ghosts of
+// every hovered item stacked on screen.
 .skills-tooltip.react-tooltip {
   z-index: 20;
+  opacity: 1 !important;
+  transition: none !important;
   max-width: 320px !important;
   background-color: var(--white-color) !important;
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16) !important;
