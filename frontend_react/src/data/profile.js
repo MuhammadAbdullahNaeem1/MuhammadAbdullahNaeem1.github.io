@@ -14,6 +14,8 @@ import {
   SiDjango,
   SiTensorflow,
   SiPython,
+  SiOpenai,
+  SiAnthropic,
 } from "react-icons/si";
 
 
@@ -98,5 +100,60 @@ export const experience = [
     company: "Fiverr",
     period: "Aug 2021 – Dec 2023",
     desc: "Delivered full-cycle software projects for clients — designing, building, debugging, and shipping solutions across multiple stacks, with a strong focus on fast turnaround and reliability.",
+  },
+];
+
+// ---------------------------------------------------------------------------
+// Certifications — cards render in this array's order (grouped by issuer here);
+// reorder the array to reorder them.
+//
+//   title          certificate name, as printed on the credential
+//   org            issuing organization
+//   issued         "Month Year" it was issued (e.g. "Jan 2026")
+//   credentialId   ID on the credential — omit or leave "" to hide the line
+//   credentialUrl  public verification link — omit or leave "" and the
+//                  "Show credential" button is hidden (no dead links)
+//   icon / color   issuing org's logo (react-icons) and the color it renders in
+//
+// The colors below are chosen to stay legible in both light and dark mode.
+// ---------------------------------------------------------------------------
+const OPENAI = { org: "OpenAI", icon: SiOpenai, color: "#10A37F" };
+const ANTHROPIC = { org: "Anthropic", icon: SiAnthropic, color: "#D97757" };
+
+export const certifications = [
+  {
+    ...OPENAI,
+    title: "AI Foundations",
+    issued: "Jul 2026",
+    credentialId: "cen4gk2635",
+    credentialUrl: "https://academy.openai.com/public/certificate/cen4gk2635",
+  },
+  {
+    ...OPENAI,
+    title: "Agents and Workflows",
+    issued: "Jul 2026",
+    credentialId: "qtx16lcy4n",
+    credentialUrl: "https://academy.openai.com/public/certificate/qtx16lcy4n",
+  },
+  {
+    ...OPENAI,
+    title: "Applied AI Foundations",
+    issued: "Jul 2026",
+    credentialId: "0wu16ld9l1",
+    credentialUrl: "https://academy.openai.com/public/certificate/0wu16ld9l1",
+  },
+  {
+    ...ANTHROPIC,
+    title: "Claude 101",
+    issued: "Jul 2026",
+    credentialId: "xha5tyvv5kzb",
+    credentialUrl: "https://verify.skilljar.com/c/xha5tyvv5kzb",
+  },
+  {
+    ...ANTHROPIC,
+    title: "Claude Code 101",
+    issued: "Jul 2026",
+    credentialId: "zogrft6gamtb",
+    credentialUrl: "https://verify.skilljar.com/c/zogrft6gamtb",
   },
 ];

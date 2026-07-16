@@ -4,6 +4,7 @@ import { HiMenuAlt4, HiX } from "react-icons/hi";
 import { FiSun, FiMoon } from "react-icons/fi";
 import { motion } from "framer-motion";
 
+import { sections } from "../../constants";
 import "./Navbar.scss";
 
 const getInitialTheme = () => {
@@ -60,7 +61,7 @@ const Navbar = () => {
         </a>
       </div>
       <ul className="app__navbar-links">
-        {["home", "about", "work", "skills", "contact"].map((item) => (
+        {sections.map((item) => (
             <li
               key={`link-${item}`}
               className={`app__flex p-text ${active === item ? "active" : ""}`}
@@ -94,7 +95,7 @@ const Navbar = () => {
           >
             <HiX onClick={() => setToggle(false)} />
             <ul>
-              {["home", "about", "work", "skills", "contact"].map((item) => (
+              {sections.map((item) => (
                 <li key={item}>
                   <a href={`#${item}`} onClick={() => setToggle(false)}>
                     {item}

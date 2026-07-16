@@ -26,7 +26,11 @@
 
   @media screen and (max-width: 900px) {
     margin-right: 0;
-    justify-content: center;
+    // Left-aligned (not centered) once stacked: centering adds a gutter that
+    // changes with viewport width and item count, so the icons would never
+    // line up with the timeline below. Sharing a left edge keeps them aligned
+    // on any screen.
+    justify-content: flex-start;
     align-items: center;
   }
 }
@@ -85,6 +89,10 @@
 
   @media screen and (max-width: 900px) {
     margin-top: 3rem;
+    // Stacked under the skills grid: match the 1rem side margin each
+    // .app__skills-item carries, so the timeline lines up with the icons
+    // above instead of running flush to the screen edge.
+    padding: 0 1rem;
   }
 }
 
