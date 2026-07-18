@@ -4,65 +4,90 @@
   flex-direction: column;
 }
 
+// A grid rather than centred flex-wrap: with this many certificates the tiles
+// need to line up in even columns, and a part-filled last row should align to
+// the left edge instead of floating in the middle.
 .app__certs-list {
   width: 80%;
+  max-width: 1180px;
   margin-top: 3rem;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  // 240px lands on four columns at desktop, so ten tiles fall as 4 / 4 / 2
+  // rather than leaving a single orphan on a fourth row.
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   align-items: stretch;
-  gap: 1.5rem;
+  gap: 1rem;
 
   @media screen and (min-width: 2000px) {
-    gap: 2.5rem;
+    max-width: 1800px;
+    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    gap: 1.75rem;
   }
 
   @media screen and (max-width: 900px) {
     width: 100%;
   }
+
+  @media screen and (max-width: 450px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .app__certs-item {
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  gap: 1rem;
-  width: 340px;
-  padding: 1.5rem;
-  border-radius: 0.5rem;
+  gap: 0.85rem;
+  padding: 1.1rem 1.15rem;
+  // Only some issuers print a credential ID, so a floor keeps tiles with and
+  // without that line reading as the same object across rows.
+  min-height: 104px;
+  border-radius: 0.75rem;
   background-color: var(--white-color);
   color: var(--black-color);
-
-  &:hover {
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
-  }
+  border: 1px solid transparent;
+  text-decoration: none;
+  transition: transform 0.22s ease, box-shadow 0.22s ease,
+    border-color 0.22s ease;
 
   @media screen and (min-width: 2000px) {
-    width: 500px;
-    padding: 2rem;
-    gap: 1.5rem;
+    padding: 1.75rem 2rem;
+    gap: 1.25rem;
+    border-radius: 1rem;
   }
+}
 
-  @media screen and (max-width: 450px) {
-    width: 100%;
+// Only tiles that actually open a credential get the interactive treatment.
+.app__certs-item--link {
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.13);
+    border-color: rgba(49, 59, 172, 0.18);
+
+    .app__certs-arrow {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
   }
 }
 
 // Issuing org's logo, in a circular tile matching the Skills icons.
 .app__certs-logo {
   flex-shrink: 0;
-  width: 52px;
-  height: 52px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
 
   @media screen and (min-width: 2000px) {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
 
     svg {
-      width: 40px;
-      height: 40px;
+      width: 34px;
+      height: 34px;
     }
   }
 }
@@ -71,71 +96,83 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 100%;
+  // Lets long titles ellipsis instead of forcing the tile wider.
+  min-width: 0;
+  // Leaves room for the corner link icon.
+  padding-right: 1rem;
 
   .app__certs-title {
+    font-size: 0.95rem;
     font-weight: 600;
-    line-height: 1.4;
+    line-height: 1.35;
     text-align: left;
-  }
+    color: var(--black-color);
 
-  .app__certs-org {
-    margin-top: 0.25rem;
-    font-weight: 500;
-    color: var(--gray-color);
-    text-align: left;
+    @media screen and (min-width: 2000px) {
+      font-size: 1.6rem;
+    }
   }
 }
 
+// Issuer and issue date, on one line.
 .app__certs-meta {
-  margin-top: 0.4rem;
+  margin-top: 0.3rem;
   font-family: var(--font-base);
   font-size: 0.78rem;
   font-weight: 500;
   line-height: 1.5;
   color: var(--gray-color);
   text-align: left;
-  word-break: break-word;
 
   @media screen and (min-width: 2000px) {
     font-size: 1.25rem;
   }
 }
 
-.app__certs-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  border: 1px solid var(--lightGray-color);
-  border-radius: 2rem;
+// Credential ID is reference detail, not headline info — kept quiet so ten
+// tiles don't read as a wall of codes.
+.app__certs-id {
+  margin-top: 0.3rem;
   font-family: var(--font-base);
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--secondary-color);
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.25s ease-in-out;
-
-  svg {
-    width: 14px;
-    height: 14px;
-  }
-
-  &:hover {
-    background-color: var(--secondary-color);
-    border-color: var(--secondary-color);
-    color: var(--white-color);
-  }
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  color: var(--gray-color);
+  opacity: 0.62;
+  text-align: left;
+  word-break: break-all;
 
   @media screen and (min-width: 2000px) {
-    font-size: 1.25rem;
-    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
+  }
+}
 
-    svg {
-      width: 20px;
-      height: 20px;
-    }
+// Sits in the corner and slides in on hover, so the affordance is present
+// without a button competing for attention on every tile.
+.app__certs-arrow {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.1rem;
+  width: 15px;
+  height: 15px;
+  color: var(--secondary-color);
+  opacity: 0;
+  transform: translate(-2px, 2px);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+
+  @media screen and (min-width: 2000px) {
+    width: 24px;
+    height: 24px;
+    top: 1.75rem;
+    right: 2rem;
+  }
+}
+
+// Touch devices never hover, so keep the cue permanently visible there.
+@media (hover: none) {
+  .app__certs-arrow {
+    opacity: 0.55;
+    transform: translate(0, 0);
   }
 }

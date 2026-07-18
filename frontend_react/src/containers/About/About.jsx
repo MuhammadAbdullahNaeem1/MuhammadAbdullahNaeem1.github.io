@@ -12,9 +12,9 @@ const About = () => {
   return (
     <>
       <h2 className="head-text">
-        I build <span>products</span>
+        Production <span>AI</span>
         <br />
-        that think <span>and ship</span>
+        built to <span>scale</span>
       </h2>
       <div className="app__about-context app__flex">
         <div className="app__about-data app__flex">

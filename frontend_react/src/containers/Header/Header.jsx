@@ -47,20 +47,22 @@ const headerSkillVariants = {
   },
 };
 
-// Floating tech-stack icons. Sizes (60/92/60) match the circle sizes
-// (100/150/100px), so the middle circle reads bigger on both sides.
-// RAG and LangGraph have no official logos, so they use representative
-// icons (retrieval = database+search, LangGraph = node graph).
+// Floating tech-stack icons. Sizes (49/75/47) keep the same ~60% ratio inside
+// the circle sizes (82/122/82px), so the middle circle still reads bigger on
+// both sides. RAG and LangGraph have no official logos, so they use
+// representative icons (retrieval = database+search, LangGraph = node graph).
 const rightIcons = [
-  { Icon: SiDjango, color: "#0C4B33", size: 60 }, // Django
-  { Icon: SiPython, color: "#3776AB", size: 58 }, // Python
-  { Icon: TbDatabaseSearch, color: "#7C3AED", size: 58 }, // RAG
+  { Icon: SiDjango, color: "#0C4B33", size: 49 }, // Django
+  // Middle slot sits in the larger circle, so it takes the larger glyph to
+  // match the ratio its counterpart on the left column uses.
+  { Icon: SiPython, color: "#3776AB", size: 72 }, // Python
+  { Icon: TbDatabaseSearch, color: "#7C3AED", size: 47 }, // RAG
 ];
 
 const leftIcons = [
-  { Icon: SiLangchain, color: "#1C7D73", size: 60 }, // LangChain
-  { Icon: BiNetworkChart, color: "#E11D48", size: 92 }, // LangGraph
-  { Icon: SiFastapi, color: "#009688", size: 58 }, // FastAPI
+  { Icon: SiLangchain, color: "#1C7D73", size: 49 }, // LangChain
+  { Icon: BiNetworkChart, color: "#E11D48", size: 75 }, // LangGraph
+  { Icon: SiFastapi, color: "#009688", size: 47 }, // FastAPI
 ];
 
 const Header = () => {
@@ -88,6 +90,7 @@ const Header = () => {
             />
             <p className="header-eyebrow">Hello, I am</p>
             <h1 className="header-name">M.&nbsp;Abdullah Naeem</h1>
+            <p className="header-role">Agentic AI Developer</p>
             <span className="header-divider" />
           </div>
         </div>

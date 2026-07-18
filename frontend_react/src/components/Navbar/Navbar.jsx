@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { HiMenuAlt4, HiX } from "react-icons/hi";
 import { FiSun, FiMoon } from "react-icons/fi";
-import { motion } from "framer-motion";
 
 import { sections } from "../../constants";
 import "./Navbar.scss";
@@ -16,7 +14,6 @@ const getInitialTheme = () => {
 };
 
 const Navbar = () => {
-  const [toggle, setToggle] = useState(false);
   const [classFloat, setClassFloat] = useState("");
   const [active, setActive] = useState("");
   const [theme, setTheme] = useState(getInitialTheme);
@@ -86,26 +83,8 @@ const Navbar = () => {
         {theme === "dark" ? <FiSun /> : <FiMoon />}
       </button>
 
-      <div className="app__navbar-menu">
-        <HiMenuAlt4 onClick={() => setToggle(true)} />
-        {toggle && (
-          <motion.div
-            whileInView={{ x: [300, 0] }}
-            transition={{ duration: 0.75, ease: "easeOut" }}
-          >
-            <HiX onClick={() => setToggle(false)} />
-            <ul>
-              {sections.map((item) => (
-                <li key={item}>
-                  <a href={`#${item}`} onClick={() => setToggle(false)}>
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        )}
-      </div>
+      {/* The hamburger menu used to live here. Desktop shows the links inline
+          and mobile now has the bottom tab bar, so it had no job left. */}
     </nav>
   );
 };

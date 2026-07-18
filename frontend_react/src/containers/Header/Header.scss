@@ -43,6 +43,12 @@
   align-items: flex-start;
   height: 100%;
 
+  // Nudge the photo and name inward off the screen edge so the block sits
+  // more comfortably in the layout (side-by-side desktop only).
+  @media screen and (min-width: 1201px) {
+    padding-left: 3rem;
+  }
+
   @media screen and (max-width: 2000px) {
     width: 100%;
     margin-right: 0rem;
@@ -117,8 +123,22 @@
     }
   }
 
+  // Role sits directly under the name so the two read as one signature block,
+  // with the gradient bar closing it off underneath.
+  .header-role {
+    margin: 0.85rem 0 0;
+    font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--gray-color);
+
+    @media screen and (min-width: 2000px) {
+      font-size: 2rem;
+    }
+  }
+
   .header-divider {
-    margin-top: 1.25rem;
+    margin-top: 1rem;
     width: 80px;
     height: 5px;
     border-radius: 999px;
@@ -154,8 +174,8 @@
   margin-left: 1rem;
 
   div {
-    width: 100px;
-    height: 100px;
+    width: 82px;
+    height: 82px;
     border-radius: 50%;
 
     background-color: var(--white-color);
@@ -170,17 +190,17 @@
   }
 
   div:nth-child(1) {
-    width: 100px;
-    height: 100px;
+    width: 82px;
+    height: 82px;
   }
   div:nth-child(2) {
     margin: 1.75rem;
-    width: 150px;
-    height: 150px;
+    width: 122px;
+    height: 122px;
   }
   div:nth-child(3) {
-    width: 100px;
-    height: 100px;
+    width: 82px;
+    height: 82px;
   }
 
   @media screen and (min-width: 2000px) {
@@ -220,6 +240,14 @@
   align-items: flex-end;
 }
 
+// Trimming the trailing icon column is what lets the illustration sit further
+// right. The circles are a fixed 100/150px, so the narrower track still fits.
+@media screen and (min-width: 1201px) {
+  .app__header-circles:not(.app__header-circles--left) {
+    flex: 0.5;
+  }
+}
+
 .app__header-img {
   flex: 1;
   height: 100%;
@@ -229,6 +257,17 @@
   align-items: flex-end;
 
   position: relative;
+
+  // Scaled back and pushed toward the right edge so the illustration supports
+  // the name block instead of competing with it. Both the artwork and its
+  // backing circle are sized off this container, so they shrink together and
+  // stay aligned.
+  // The four columns fill the row exactly, so shrinking the illustration and
+  // narrowing the icon column after it is what shifts the artwork rightward.
+  @media screen and (min-width: 1201px) {
+    flex: 0.7;
+    margin-left: 1.5rem;
+  }
 
   img {
     width: 100%;

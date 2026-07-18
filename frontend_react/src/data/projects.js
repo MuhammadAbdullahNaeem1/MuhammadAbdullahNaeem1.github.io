@@ -29,11 +29,11 @@ const projects = [
     imgUrl: img("symptomsense-ai", "thumb.webp"),
     screenshots: [
       img("symptomsense-ai", "demo.mp4"),
-      img("symptomsense-ai", "1.png"),
-      img("symptomsense-ai", "2.png"),
-      img("symptomsense-ai", "3.png"),
-      img("symptomsense-ai", "4.png"),
-      img("symptomsense-ai", "5.png"),
+      img("symptomsense-ai", "1.webp"),
+      img("symptomsense-ai", "2.webp"),
+      img("symptomsense-ai", "3.webp"),
+      img("symptomsense-ai", "4.webp"),
+      img("symptomsense-ai", "5.webp"),
     ],
     caseStudy: `Overview
 
@@ -61,7 +61,7 @@ Next.js, Django, SwinUNet, Random Forest, Federated Learning, TensorFlow, Pandas
   },
     {
     id: "logiflow",
-    title: "AI-Powered Customer Churn Prediction Dashboard",
+    title: "⁠Multi-Agent AI Customer Support",
     description:
       "Multi-agent system that triages and resolves support tickets",
     metaDescription:
@@ -70,13 +70,13 @@ Next.js, Django, SwinUNet, Random Forest, Federated Learning, TensorFlow, Pandas
     imgUrl: img("logiflow", "thumb.webp"),
     screenshots: [
       img("logiflow", "demo.mp4"),
-      img("logiflow", "1.png"),
-      img("logiflow", "2.png"),
-      img("logiflow", "3.png"),
-      img("logiflow", "4.png"),
-      img("logiflow", "5.png"),
-      img("logiflow", "6.png"),
-      img("logiflow", "7.png"),
+      img("logiflow", "1.webp"),
+      img("logiflow", "2.webp"),
+      img("logiflow", "3.webp"),
+      img("logiflow", "4.webp"),
+      img("logiflow", "5.webp"),
+      img("logiflow", "6.webp"),
+      img("logiflow", "7.webp"),
     ],
     caseStudy: `Overview
 
@@ -123,13 +123,13 @@ LangGraph, Gemini 2.5 Flash, ChromaDB, sentence-transformers, FastAPI, SQLAlchem
     imgUrl: img("churn-radar", "thumb.webp"),
     screenshots: [
       img("churn-radar", "demo.mp4"),
-      img("churn-radar", "1.png"),
-      img("churn-radar", "2.png"),
-      img("churn-radar", "3.png"),
-      img("churn-radar", "4.png"),
-      img("churn-radar", "5.png"),
-      img("churn-radar", "6.png"),
-      img("churn-radar", "7.png"),
+      img("churn-radar", "1.webp"),
+      img("churn-radar", "2.webp"),
+      img("churn-radar", "3.webp"),
+      img("churn-radar", "4.webp"),
+      img("churn-radar", "5.webp"),
+      img("churn-radar", "6.webp"),
+      img("churn-radar", "7.webp"),
     ],
     caseStudy: `Overview
 
@@ -166,8 +166,8 @@ Next.js, Tailwind, Recharts, FastAPI, XGBoost, scikit-learn, SHAP, pandas, SQLit
     imgUrl: img("nl2sql", "thumb.webp"),
     screenshots: [
       img("nl2sql", "demo.mp4"),
-      img("nl2sql", "1.png"),
-      img("nl2sql", "2.png"),
+      img("nl2sql", "1.webp"),
+      img("nl2sql", "2.webp"),
     ],
     caseStudy: `Overview
 
@@ -246,10 +246,10 @@ React, Vite, Tailwind, FastAPI, PostgreSQL, SQLAlchemy, LangChain, Groq, Llama 3
     imgUrl: img("aesh-summer", "thumb.webp"),
     screenshots: [
       img("aesh-summer", "demo.mp4"),
-      img("aesh-summer", "1.png"),
-      img("aesh-summer", "2.png"),
-      img("aesh-summer", "3.png"),
-      img("aesh-summer", "4.png"),
+      img("aesh-summer", "1.webp"),
+      img("aesh-summer", "2.webp"),
+      img("aesh-summer", "3.webp"),
+      img("aesh-summer", "4.webp"),
     ],
     caseStudy: `Overview
 
@@ -286,8 +286,8 @@ Next.js, React, Node.js, MongoDB, Styled Components`,
     imgUrl: img("legal-doc-intelligence", "thumb.webp"),
     screenshots: [
       img("legal-doc-intelligence", "demo.mp4"),
-      img("legal-doc-intelligence", "1.png"),
-      img("legal-doc-intelligence", "2.png"),
+      img("legal-doc-intelligence", "1.webp"),
+      img("legal-doc-intelligence", "2.webp"),
     ],
     caseStudy: `Overview
 

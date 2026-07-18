@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { AiOutlineClose, AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import { AiOutlineClose, AiFillPlayCircle } from "react-icons/ai";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { AppWrap, MotionWrap } from "../../wrapper";
@@ -88,6 +88,25 @@ const Work = () => {
     };
   }, [selectedWork]);
 
+  // Warm every still in the open project so stepping through the carousel is
+  // instant. Without this the first visit to each slide waits on a fresh
+  // network request, which is what made navigation feel slow the first time.
+  useEffect(() => {
+    if (!selectedWork) {
+      return;
+    }
+
+    const stills = (selectedWork.screenshots || []).filter(
+      (media) => media && !isVideoMedia(media)
+    );
+
+    stills.forEach((src) => {
+      const preloaded = new Image();
+      preloaded.decoding = "async";
+      preloaded.src = src;
+    });
+  }, [selectedWork]);
+
   const getImageUrl = (image) => image || "";
 
   const getCarouselImages = (work) => {
@@ -110,25 +129,6 @@ const Work = () => {
   const handleCloseModal = () => {
     setSelectedWork(null);
     setSelectedImageIndex(0);
-  };
-
-  const handleCarouselChange = (direction) => {
-    if (!selectedWork) {
-      return;
-    }
-
-    const images = getCarouselImages(selectedWork);
-    if (images.length <= 1) {
-      return;
-    }
-
-    setSelectedImageIndex((currentIndex) => {
-      if (direction === "next") {
-        return (currentIndex + 1) % images.length;
-      }
-
-      return (currentIndex - 1 + images.length) % images.length;
-    });
   };
 
   const carouselImages = selectedWork ? getCarouselImages(selectedWork) : [];
@@ -232,42 +232,44 @@ const Work = () => {
                 </button>
 
                 <div className="app__work-modal-media">
-                  {carouselImages.length > 1 ? (
-                    <>
-                      <button
-                        type="button"
-                        className="app__work-modal-nav app__work-modal-nav-left"
-                        onClick={() => handleCarouselChange("prev")}
-                        aria-label="Show previous screenshot"
-                      >
-                        <AiOutlineLeft />
-                      </button>
-                      {renderMedia(activeImage)}
-                      <button
-                        type="button"
-                        className="app__work-modal-nav app__work-modal-nav-right"
-                        onClick={() => handleCarouselChange("next")}
-                        aria-label="Show next screenshot"
-                      >
-                        <AiOutlineRight />
-                      </button>
-                    </>
-                  ) : (
-                    renderMedia(activeImage)
-                  )}
+                  {/* The thumbnail strip below is the only way to move between
+                      slides now — prev/next arrows sat on top of the artwork
+                      and duplicated what the previews already do. */}
+                  {renderMedia(activeImage)}
 
+                  {/* Thumbnail strip — jumping straight to a slide beats
+                      stepping through with dots once a project has 8 of them.
+                      The video slide uses the project's card image as its
+                      still, marked with a play badge. */}
                   {carouselImages.length > 1 && (
-                    <div className="app__work-modal-dots">
-                      {carouselImages.map((_, index) => (
+                    <div className="app__work-modal-thumbs">
+                      {carouselImages.map((media, index) => (
                         <button
                           key={index}
                           type="button"
-                          className={`app__work-modal-dot ${
+                          className={`app__work-modal-thumb ${
                             selectedImageIndex === index ? "active" : ""
                           }`}
                           onClick={() => setSelectedImageIndex(index)}
-                          aria-label={`Show screenshot ${index + 1}`}
-                        />
+                          aria-label={`Show item ${index + 1} of ${
+                            carouselImages.length
+                          }`}
+                          aria-current={selectedImageIndex === index}
+                        >
+                          <img
+                            src={getImageUrl(
+                              isVideoMedia(media) ? selectedWork.imgUrl : media
+                            )}
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
+                          />
+                          {isVideoMedia(media) && (
+                            <span className="app__work-modal-thumb-play">
+                              <AiFillPlayCircle />
+                            </span>
+                          )}
+                        </button>
                       ))}
                     </div>
                   )}

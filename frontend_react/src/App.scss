@@ -70,6 +70,12 @@
   @media screen and (max-width: 450px) {
     font-size: 2rem;
   }
+
+  // Very narrow phones (~320px): stops two line headings from wrapping into
+  // four, which reads as broken rather than intentional.
+  @media screen and (max-width: 340px) {
+    font-size: 1.75rem;
+  }
 }
 
 .p-text {

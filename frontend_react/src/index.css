@@ -77,7 +77,3 @@ img {
   border-bottom-color: rgba(255, 255, 255, 0.12);
 }
 
-/* Mobile slide-out menu uses a light texture image by default */
-:root[data-theme="dark"] .app__navbar-menu div {
-  background: var(--white-color);
-}

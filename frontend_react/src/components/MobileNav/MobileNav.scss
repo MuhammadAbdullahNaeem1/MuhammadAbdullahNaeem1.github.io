@@ -1,0 +1,81 @@
+// Fixed bottom tab bar — mobile only. Desktop already has the navbar links
+// and the side dot rail, so this stays hidden there.
+.app__mobilenav {
+  display: none;
+}
+
+@media screen and (max-width: 900px) {
+  .app__mobilenav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: stretch;
+
+    // Sits clear of the iOS home indicator / Android gesture bar.
+    padding: 0.4rem 0.35rem calc(0.4rem + env(safe-area-inset-bottom));
+
+    background-color: var(--white-color);
+    border-top: 1px solid var(--lightGray-color);
+    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .app__mobilenav-tab {
+    flex: 1;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.18rem;
+
+    padding: 0.4rem 0.15rem;
+    border-radius: 0.6rem;
+    text-decoration: none;
+    color: var(--gray-color);
+    transition: color 0.2s ease, background-color 0.2s ease;
+
+    svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    span {
+      font-family: var(--font-base);
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      text-transform: uppercase;
+
+      // Never let a label wrap and shove the bar taller.
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+  }
+
+  // Scoped under the bar so the active state always outranks the base tab
+  // rule, whatever order the bundler emits them in.
+  .app__mobilenav .app__mobilenav-tab.active {
+    color: var(--secondary-color);
+    background-color: var(--skill-bg);
+  }
+
+  // Stops the bar from covering the last of the page content.
+  #app .copyright:last-child,
+  .app__footer {
+    padding-bottom: 4.5rem;
+  }
+
+  body {
+    padding-bottom: 0;
+  }
+}

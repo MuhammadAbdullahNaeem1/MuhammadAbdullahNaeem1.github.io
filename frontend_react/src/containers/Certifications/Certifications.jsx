@@ -14,51 +14,59 @@ const Certifications = () => {
       </h2>
 
       <div className="app__certs-list">
-        {certifications?.map((cert, index) => (
-          <motion.div
-            className="app__certs-item"
-            key={`${cert.org}-${index}`}
-            whileInView={{ opacity: [0, 1], y: [24, 0] }}
-            transition={{ duration: 0.5, delay: index * 0.05 }}
-          >
-            <div
-              className="app__certs-logo app__flex"
-              style={{ backgroundColor: "var(--skill-bg)" }}
+        {certifications?.map((cert, index) => {
+          // The whole tile is the link when there's a credential to open — a
+          // "Show credential" button on every card added far too much weight
+          // once the list grew past a handful.
+          const Card = cert.credentialUrl ? motion.a : motion.div;
+          const linkProps = cert.credentialUrl
+            ? { href: cert.credentialUrl, target: "_blank", rel: "noreferrer" }
+            : {};
+
+          return (
+            <Card
+              className={`app__certs-item${
+                cert.credentialUrl ? " app__certs-item--link" : ""
+              }`}
+              key={`${cert.org}-${index}`}
+              {...linkProps}
+              whileInView={{ opacity: [0, 1], y: [20, 0] }}
+              // Capped so the last cards don't sit blank waiting their turn.
+              transition={{ duration: 0.45, delay: Math.min(index, 7) * 0.04 }}
             >
-              {cert.icon && (
-                <cert.icon color={cert.color} size={30} aria-label={cert.org} />
-              )}
-            </div>
+              <div
+                className="app__certs-logo app__flex"
+                style={{ backgroundColor: "var(--skill-bg)" }}
+              >
+                {cert.icon && (
+                  <cert.icon
+                    color={cert.color}
+                    size={24}
+                    aria-label={cert.org}
+                  />
+                )}
+              </div>
 
-            <div className="app__certs-content">
-              <h4 className="bold-text app__certs-title">{cert.title}</h4>
-              <p className="p-text app__certs-org">{cert.org}</p>
+              <div className="app__certs-content">
+                <h4 className="bold-text app__certs-title">{cert.title}</h4>
 
-              {cert.issued && (
-                <span className="app__certs-meta">Issued {cert.issued}</span>
-              )}
+                {/* Issuer and date share a line to keep each tile compact. */}
+                <p className="app__certs-meta">
+                  {cert.org}
+                  {cert.issued && ` · ${cert.issued}`}
+                </p>
 
-              {cert.credentialId && (
-                <span className="app__certs-meta">
-                  Credential ID {cert.credentialId}
-                </span>
-              )}
+                {cert.credentialId && (
+                  <span className="app__certs-id">ID {cert.credentialId}</span>
+                )}
+              </div>
 
-              {/* Only render the button once there's a real link to point at. */}
               {cert.credentialUrl && (
-                <a
-                  className="app__certs-link"
-                  href={cert.credentialUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Show credential
-                  <FiExternalLink />
-                </a>
+                <FiExternalLink className="app__certs-arrow" aria-hidden />
               )}
-            </div>
-          </motion.div>
-        ))}
+            </Card>
+          );
+        })}
       </div>
     </>
   );

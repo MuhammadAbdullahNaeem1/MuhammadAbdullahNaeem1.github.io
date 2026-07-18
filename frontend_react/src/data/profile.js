@@ -16,6 +16,8 @@ import {
   SiPython,
   SiOpenai,
   SiAnthropic,
+  SiKaggle,
+  SiHuggingface,
 } from "react-icons/si";
 
 
@@ -39,7 +41,7 @@ export const profile = {
 // About Me — rendered as HTML (paragraphs separated by <br/>)
 // ---------------------------------------------------------------------------
 export const aboutMe = {
-  description: `I'm a developer who works across the full stack, building products that are both well-designed and technically sound. My focus spans two things: crafting clean, considered web experiences, and building applied machine learning systems that solve real problems.<br/><br/>On the web side, that means React-based storefronts and portfolios with real e-commerce logic, smooth interactions, and design that doesn't feel templated. On the ML side, it's meant building things like a federated learning pipeline for privacy-preserving medical diagnostics, and a full data-to-dashboard stock intelligence system built with a team.<br/><br/>I care about the full picture, not just functional, but considered: interfaces that feel intentional, code that's maintainable, and systems that are built to actually be used.<br/><br/>If you're working on a project and want to team up, let's collaborate and build something great.`,
+  description: `I'm an Agent AI developer, building systems that are both genuinely useful and technically sound. My focus spans two things: designing agentic workflows that reason, act, and know their limits, and building applied machine learning that solves problems a business actually has.<br/><br/>On the agent side, that means multi agent systems built with LangGraph that triage real workloads, ground every answer in your own documentation through retrieval augmented generation, and escalate to a human the moment confidence drops. On the modelling side, it has meant a federated learning pipeline for privacy preserving medical diagnostics, and predictive models shipped with SHAP explanations, so a team can act on a score instead of arguing with it.<br/><br/>I care about the full picture, not just functional but considered: agents that fail safely, models that explain themselves, and systems built to actually be used.<br/><br/>If you're working on something that needs AI to be reliable rather than just impressive, I'd like to hear about it.`,
 };
 
 // ---------------------------------------------------------------------------
@@ -119,6 +121,8 @@ export const experience = [
 // ---------------------------------------------------------------------------
 const OPENAI = { org: "OpenAI", icon: SiOpenai, color: "#10A37F" };
 const ANTHROPIC = { org: "Anthropic", icon: SiAnthropic, color: "#D97757" };
+const HUGGINGFACE = { org: "Hugging Face", icon: SiHuggingface, color: "#FF9D00" };
+const KAGGLE = { org: "Kaggle", icon: SiKaggle, color: "#20BEFF" };
 
 export const certifications = [
   {
@@ -155,5 +159,42 @@ export const certifications = [
     issued: "Jul 2026",
     credentialId: "zogrft6gamtb",
     credentialUrl: "https://verify.skilljar.com/c/zogrft6gamtb",
+  },
+  {
+    ...HUGGINGFACE,
+    title: "AI Agents Course",
+    issued: "Jul 2026",
+    credentialUrl:
+      "https://huggingface.co/datasets/agents-course/final-certificates/resolve/main/certificates/muhammadabdullahnaeem/2026-07-18.png",
+  },
+  // Kaggle certificates are verified by their public URL alone — there is no
+  // separate credential ID printed on them, so that line is omitted.
+  {
+    ...KAGGLE,
+    title: "Machine Learning Explainability",
+    issued: "Jul 2026",
+    credentialUrl:
+      "https://www.kaggle.com/learn/certification/abdullahnaeem7/machine-learning-explainability",
+  },
+  {
+    ...KAGGLE,
+    title: "Intermediate Machine Learning",
+    issued: "Jul 2026",
+    credentialUrl:
+      "https://www.kaggle.com/learn/certification/abdullahnaeem7/intermediate-machine-learning",
+  },
+  {
+    ...KAGGLE,
+    title: "Intro to Deep Learning",
+    issued: "Jul 2026",
+    credentialUrl:
+      "https://www.kaggle.com/learn/certification/abdullahnaeem7/intro-to-deep-learning",
+  },
+  {
+    ...KAGGLE,
+    title: "Advanced SQL",
+    issued: "Jul 2026",
+    credentialUrl:
+      "https://www.kaggle.com/learn/certification/abdullahnaeem7/advanced-sql",
   },
 ];
