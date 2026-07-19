@@ -1,0 +1,120 @@
+// Fixed vertical rail on the left edge, centred against the viewport so it
+// stays put through the whole page.
+.app__rail {
+  position: fixed;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 6;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+
+  @media screen and (min-width: 2000px) {
+    left: 2rem;
+    gap: 1rem;
+  }
+
+  // Only shown where the layout actually leaves a left gutter. Below 1201px
+  // the header stacks and its content starts at the wrapper padding (32px),
+  // which the rail would sit on top of — so it hides rather than overlap the
+  // profile photo. Mobile still has the bottom tab bar and the contact links.
+  @media screen and (max-width: 1200px) {
+    display: none;
+  }
+}
+
+.app__rail-link {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--gray-color);
+  background-color: var(--white-color);
+  border: 1px solid var(--lightGray-color);
+  text-decoration: none;
+
+  transition: color 0.25s ease, background-color 0.25s ease,
+    border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  &:hover {
+    color: var(--white-color);
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(49, 59, 172, 0.28);
+
+    .app__rail-label {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @media screen and (min-width: 2000px) {
+    width: 62px;
+    height: 62px;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
+// Slides out on hover so the rail stays compact but still self-explanatory.
+.app__rail-label {
+  position: absolute;
+  left: calc(100% + 0.6rem);
+
+  padding: 0.4rem 0.65rem;
+  border-radius: 0.4rem;
+
+  font-family: var(--font-base);
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+
+  color: var(--white-color);
+  background-color: var(--secondary-color);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+
+  opacity: 0;
+  transform: translateX(-6px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+
+  @media screen and (min-width: 2000px) {
+    font-size: 1.15rem;
+    padding: 0.6rem 1rem;
+  }
+}
+
+// Small tail under the icons; a common portfolio cue that the rail is an
+// anchored element rather than floating content.
+.app__rail-line {
+  width: 1px;
+  height: 64px;
+  margin-top: 0.2rem;
+  background: linear-gradient(var(--lightGray-color), transparent);
+}
+
+// Unlike the footer bar — which is a fixed dark colour — these buttons use
+// var(--white-color) as their background, so it flips with the theme. White
+// logos therefore only work in dark mode; in light mode the button is #ffffff
+// and a white icon would be invisible (1:1 contrast), so the icon stays dark
+// there. Dark mode goes from 6.8:1 to 17.2:1.
+:root[data-theme="dark"] .app__rail-link {
+  color: #ffffff;
+}

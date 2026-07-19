@@ -224,3 +224,77 @@
 .none {
   display: none;
 }
+
+// ---------------------------------------------------------------------------
+// Call-to-action buttons — shared by the About and Contact sections so the two
+// entry points look identical wherever they appear.
+// ---------------------------------------------------------------------------
+.app__cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+
+  padding: 0.85rem 1.6rem;
+  border-radius: 2rem;
+  border: 1px solid var(--secondary-color);
+
+  font-family: var(--font-base);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+
+  color: var(--secondary-color);
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease,
+    transform 0.25s ease, box-shadow 0.25s ease;
+
+  svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  &:hover {
+    background-color: var(--secondary-color);
+    color: var(--white-color);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(49, 59, 172, 0.25);
+  }
+
+  // Filled variant marks the primary action.
+  &--primary {
+    background-color: var(--secondary-color);
+    color: var(--white-color);
+
+    &:hover {
+      background-color: var(--secondary-color);
+      color: var(--white-color);
+    }
+  }
+
+  @media screen and (min-width: 2000px) {
+    font-size: 1.5rem;
+    padding: 1.25rem 2.4rem;
+
+    svg {
+      width: 26px;
+      height: 26px;
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+    width: 100%;
+  }
+}
+
+// Row of CTA buttons; wraps instead of overflowing on narrow screens.
+.app__about-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 0.85rem;
+  margin-top: 2rem;
+  width: 100%;
+}

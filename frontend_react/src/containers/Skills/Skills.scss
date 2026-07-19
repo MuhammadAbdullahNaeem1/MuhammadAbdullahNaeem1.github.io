@@ -222,3 +222,11 @@
     padding: 1.25rem 1.5rem !important;
   }
 }
+
+// The card's background is var(--white-color), which flips to near-black in
+// dark mode — but the text colour above is a fixed grey, so the description
+// rendered dark-on-dark (about 2:1 contrast, effectively unreadable). Light
+// text restores it to ~14:1 while leaving light mode exactly as it was.
+:root[data-theme="dark"] .skills-tooltip.react-tooltip {
+  color: var(--black-color) !important;
+}

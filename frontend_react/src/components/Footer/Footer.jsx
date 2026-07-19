@@ -6,6 +6,10 @@ import { motion } from "framer-motion";
 import { profile } from "../../data/profile";
 import "./Footer.scss";
 const Footer = () => {
+  // Read at render time so the copyright rolls over on its own each January
+  // instead of needing a manual edit.
+  const currentYear = new Date().getFullYear();
+
   const parentVariant = {
     view: {
       opacity: [0, 1],
@@ -90,7 +94,7 @@ const Footer = () => {
           variants={childCopyVariant}
           whileInView="view"
         >
-          &copy; 2026 / {profile.name}
+          &copy; {currentYear} / {profile.name}
         </motion.p>
         <motion.p
           className="p-text"

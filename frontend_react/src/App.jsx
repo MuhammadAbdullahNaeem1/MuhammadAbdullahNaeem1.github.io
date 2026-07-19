@@ -9,7 +9,7 @@ import {
   Work,
 } from "./containers";
 
-import { Navbar, Footer, MobileNav } from "./components";
+import { Navbar, Footer, MobileNav, SocialRail } from "./components";
 import "./App.scss";
 
 const App = () => {
@@ -23,6 +23,7 @@ const App = () => {
       <Certifications />
       <Contact />
       <Footer />
+      <SocialRail />
       <MobileNav />
     </div>
   );

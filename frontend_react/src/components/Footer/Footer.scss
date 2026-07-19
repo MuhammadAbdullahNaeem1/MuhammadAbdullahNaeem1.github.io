@@ -31,12 +31,15 @@
       svg {
         width: 20px;
         height: 20px;
-        color: var(--white-color);
+        // Literal white, not var(--white-color): this bar stays #2f2e41 in
+        // both themes, but that variable flips to near-black in dark mode,
+        // which made the icons disappear against the dark bar.
+        color: #ffffff;
       }
     }
 
     &:hover {
-      background-color: var(--white-color);
+      background-color: #ffffff;
 
       svg {
         color: #2f2e41;

@@ -10,7 +10,7 @@ const Certifications = () => {
   return (
     <>
       <h2 className="head-text">
-        <span>Certifications</span>
+        <span>Certifications &amp; Learnings</span>
       </h2>
 
       <div className="app__certs-list">

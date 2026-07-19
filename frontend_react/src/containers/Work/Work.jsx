@@ -166,7 +166,7 @@ const Work = () => {
   return (
     <>
       <h2 className="head-text">
-        <span>Projects</span>
+        <span>Solutions Delivered</span>
       </h2>
 
       <motion.div

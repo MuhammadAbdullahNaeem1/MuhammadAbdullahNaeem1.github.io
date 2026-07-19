@@ -223,3 +223,67 @@
     margin: 1rem 0;
   }
 }
+
+// Primary CTA row (email + call).
+.app__contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  width: 100%;
+}
+
+// Secondary row: GitHub, resume and LinkedIn as labelled pills, kept visible
+// rather than hidden behind bare icons.
+.app__contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.85rem;
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.app__contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  padding: 0.7rem 1.25rem;
+  border-radius: 2rem;
+  border: 1px solid var(--lightGray-color);
+  background-color: var(--white-color);
+
+  font-family: var(--font-base);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  color: var(--gray-color);
+
+  transition: color 0.25s ease, border-color 0.25s ease, transform 0.25s ease,
+    box-shadow 0.25s ease;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  &:hover {
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.1);
+  }
+
+  @media screen and (min-width: 2000px) {
+    font-size: 1.3rem;
+    padding: 1rem 1.9rem;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}

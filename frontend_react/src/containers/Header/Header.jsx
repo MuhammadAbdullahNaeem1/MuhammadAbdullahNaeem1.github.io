@@ -124,17 +124,14 @@ const Header = () => {
         transition={{ duration: 0.5, delayChildren: 0.5 }}
         className="app__header-img"
       >
+        {/* The gradient circle that used to sit behind this was sized off the
+            full-height column, so it floated well above the artwork instead of
+            backing it. Removed rather than rescaled — the illustration reads
+            cleaner without it. */}
         <motion.img
           src={images.programmer}
           alt="profile_bg"
           whileInView={{ y: [-100, 0] }}
-        />
-        <motion.img
-          whileInView={{ scale: [0, 1] }}
-          transition={{ duration: 1, ease: "easeInOut" }}
-          src={images.circle}
-          alt="profile-circle"
-          className="overlay_circle"
         />
       </motion.div>
       <motion.div

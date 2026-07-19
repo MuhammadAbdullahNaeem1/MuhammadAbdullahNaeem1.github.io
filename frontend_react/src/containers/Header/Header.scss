@@ -258,31 +258,26 @@
 
   position: relative;
 
-  // Scaled back and pushed toward the right edge so the illustration supports
-  // the name block instead of competing with it. Both the artwork and its
-  // backing circle are sized off this container, so they shrink together and
-  // stay aligned.
-  // The four columns fill the row exactly, so shrinking the illustration and
-  // narrowing the icon column after it is what shifts the artwork rightward.
+  // Scaled back so the illustration supports the name block instead of
+  // competing with it, then centred on the axis the six icons sit around.
   @media screen and (min-width: 1201px) {
     flex: 0.7;
+
+    // Equal side margins — a left margin on its own nudged the artwork off the
+    // icons' centre line.
     margin-left: 1.5rem;
+    margin-right: 1.5rem;
+
+    // Centre it in the column instead of letting it sink to the bottom of a
+    // full-height flex track.
+    justify-content: center;
+    align-items: center;
   }
 
   img {
     width: 100%;
     object-fit: contain;
     z-index: 1;
-  }
-
-  .overlay_circle {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0;
-    width: 100%;
-    height: 90%;
   }
 
   @media screen and (max-width: 1200px) {

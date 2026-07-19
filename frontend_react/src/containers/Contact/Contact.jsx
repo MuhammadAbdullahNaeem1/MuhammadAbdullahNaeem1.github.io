@@ -1,5 +1,6 @@
 import React from "react";
-import { FiCalendar } from "react-icons/fi";
+import { FiCalendar, FiMail, FiFileText } from "react-icons/fi";
+import { FaGithub } from "react-icons/fa";
 
 import { images } from "../../constants";
 import { profile } from "../../data/profile";
@@ -11,7 +12,7 @@ const Contact = () => {
   return (
     <>
       <h2 className="head-text">
-        Got a project in mind? <span>Let's talk</span>
+        Let's Bring Your <span>AI Vision</span> to Life
       </h2>
 
       <div className="app__contact-cards">
@@ -29,20 +30,47 @@ const Contact = () => {
         </a>
       </div>
 
-      <div className="app__contact-cta app__flex">
-        <h3 className="bold-text">Prefer a quick chat?</h3>
-        <p className="p-text">
-          Book a free call and let's talk about how I can help bring your idea
-          to life.
-        </p>
+      {/* Primary next steps, side by side. */}
+      <div className="app__contact-actions">
         <a
+          className="app__cta-button app__cta-button--primary"
+          href={`mailto:${profile.email}`}
+        >
+          <FiMail />
+          <span>Email Me</span>
+        </a>
+        <a
+          className="app__cta-button"
           href={profile.calLink}
           target="_blank"
           rel="noopener noreferrer"
-          className="app__contact-cta-button app__flex"
         >
           <FiCalendar />
           <span>Book a Call</span>
+        </a>
+      </div>
+
+      {/* GitHub and the resume get their own labelled row rather than being
+          reduced to anonymous icons — they are the two things a client most
+          often wants to open before getting in touch. */}
+      <div className="app__contact-links">
+        <a
+          className="app__contact-link"
+          href={profile.socials.github}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FaGithub />
+          <span>View GitHub</span>
+        </a>
+        <a
+          className="app__contact-link"
+          href={profile.resumeUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FiFileText />
+          <span>View Resume</span>
         </a>
       </div>
     </>

@@ -18,6 +18,13 @@
     width: 80%;
     flex-direction: column;
   }
+
+  // On phones the 80% width plus the column's own side margins left the copy
+  // using barely two thirds of the screen. Give it the full width and let the
+  // section padding provide the gutter.
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
 }
 
 .app__about-img {
@@ -55,7 +62,12 @@
 
 .app__about-data {
   width: 100%;
-  margin: 2rem;
+  // Caps the line length at a readable measure. Unbounded, the copy ran the
+  // full window (~210 characters per line on a wide monitor), about three
+  // times what is comfortable to read.
+  max-width: 680px;
+  // `auto` sides centre the column instead of leaving it pinned to one edge.
+  margin: 2rem auto;
   flex-direction: column;
   justify-content: flex-start !important;
   align-items: flex-start !important;
@@ -65,13 +77,27 @@
     font-size: 1.5rem;
   }
   p {
-    text-align: justify;
+    // Justifying opened uneven gaps between words on the long lines; ragged
+    // right reads more evenly.
+    text-align: left;
     font-size: 1rem;
+    line-height: 1.7;
     font-family: var(--font-base);
     span {
       font-weight: 800;
       color: var(--secondary-color);
     }
+  }
+
+  // Type scales up on very large screens, so the column widens with it to keep
+  // roughly the same characters per line.
+  @media screen and (min-width: 2000px) {
+    max-width: 950px;
+  }
+
+  // Drop the side margins on phones — the section padding is gutter enough.
+  @media screen and (max-width: 600px) {
+    margin: 1.5rem 0;
   }
 
   @media screen and (max-width: 1000px) {
@@ -81,5 +107,26 @@
       justify-content: center;
       align-items: center;
     }
+  }
+}
+
+// Lead line above the body copy — states the value proposition before the
+// detail, so the section opens with a claim rather than a wall of text.
+.app__about-headline {
+  width: 100%;
+  margin: 0.25rem 0 1.25rem;
+  font-family: var(--font-base);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: left;
+  color: var(--secondary-color);
+
+  @media screen and (min-width: 2000px) {
+    font-size: 2.25rem;
+  }
+
+  @media screen and (max-width: 450px) {
+    font-size: 1.1rem;
   }
 }
