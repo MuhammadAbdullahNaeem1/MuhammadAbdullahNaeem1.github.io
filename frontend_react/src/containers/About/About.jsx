@@ -9,17 +9,13 @@ const About = () => {
   return (
     <>
       <h2 className="head-text">
-        Production <span>AI</span>
+        Building <span>Intelligent Systems</span>
         <br />
-        built to <span>scale</span>
+        for <span>Measurable Growth</span>
       </h2>
       <div className="app__about-context app__flex">
         <div className="app__about-data app__flex">
           <h2 className="head-text">What I Do</h2>
-
-          {aboutMe.headline && (
-            <p className="app__about-headline">{aboutMe.headline}</p>
-          )}
 
           <p
             className="p-text"

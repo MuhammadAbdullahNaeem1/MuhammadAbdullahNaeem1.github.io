@@ -41,8 +41,8 @@ export const profile = {
 // About Me — rendered as HTML (paragraphs separated by <br/>)
 // ---------------------------------------------------------------------------
 export const aboutMe = {
-  // Lead line, rendered above the body copy as a tagline.
-  headline: "Building Intelligent Systems for Measurable Growth",
+  // The "Building Intelligent Systems for Measurable Growth" line that used to
+  // sit here is now the section's main heading, in About.jsx.
   description: `Are you looking to build the next AI-powered product? Or, do you need an intelligent solution that actually works in production? Whatever the case may be, let my industrial competence bridge the technical gaps.<br/><br/>Specializing in production-ready AI agents, LLM applications, and machine learning solutions that are not only reliable and scalable but also designed for real-world impact has been my go-to since I stepped into the AI world.<br/><br/>Expertise spans agentic AI, Retrieval-Augmented Generation (RAG), multi-agent systems, intelligent workflow automation, and predictive machine learning.<br/><br/>AI agents are engineered with LangGraph, LangChain, and modern LLMs to reason, use tools, retrieve knowledge from enterprise data, and smoothly escalate to humans when confidence is low. Machine learning experience includes privacy-preserving federated learning, explainable AI with SHAP, and predictive models that enable confident, data-driven decisions.<br/><br/>Count on me for solutions built with a focus on strong architecture, safe failure handling, explainability, and long-term maintainability.<br/><br/>Let's connect and discuss what your goal is: to build AI agents, automate business workflows, integrate LLMs into existing products, or deploy production-ready machine learning systems.<br/><br/>Always ready to turn your AI vision into a measurable business impact!`,
 };
 
