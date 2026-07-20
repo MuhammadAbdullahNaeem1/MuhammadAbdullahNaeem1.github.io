@@ -8,7 +8,7 @@ import "./About.scss";
 const About = () => {
   return (
     <>
-      <h2 className="head-text">
+      <h2 className="head-text app__about-title">
         Building <span>Intelligent Systems</span>
         <br />
         for <span>Measurable Growth</span>

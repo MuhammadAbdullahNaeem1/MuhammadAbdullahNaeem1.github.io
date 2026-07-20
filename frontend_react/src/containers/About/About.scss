@@ -110,3 +110,20 @@
   }
 }
 
+
+// This heading is far longer than the one it replaced, so at the shared
+// .head-text sizes each authored line wrapped again on phones — breaking
+// "Intelligent Systems" and "Measurable Growth" across lines. Scaling with the
+// viewport keeps it to the two lines it is written as, all the way down.
+// Chained with .head-text so it outranks that class's own responsive
+// font-size rules, whichever order the bundler emits the two files in.
+.head-text.app__about-title {
+  // Floor sits just under the largest size that still fits "Building
+  // Intelligent Systems" on a 320px screen, so the vw term governs down there
+  // instead of the minimum forcing another wrap.
+  font-size: clamp(1.2rem, 6.2vw, 2.75rem);
+
+  @media screen and (min-width: 2000px) {
+    font-size: 4rem;
+  }
+}

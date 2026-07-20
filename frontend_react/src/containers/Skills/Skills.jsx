@@ -94,7 +94,10 @@ const Skills = () => {
           <ReactTooltip
             id="exp-tooltip"
             className="skills-tooltip"
-            place="left"
+            // Opens toward the right edge so it no longer covers the tech-stack
+            // icons sitting to the left of the timeline. floating-ui flips it
+            // back to the left automatically if a narrow screen lacks room.
+            place="right"
             noArrow
             opacity={1}
             delayShow={80}

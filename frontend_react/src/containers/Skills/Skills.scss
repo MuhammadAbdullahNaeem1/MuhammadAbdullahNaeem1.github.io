@@ -101,6 +101,10 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  // Rows hug their content instead of stretching the full column width. That
+  // frees the space to their right for the hover description to open into,
+  // instead of it being flipped left onto the tech-stack icons.
+  align-items: flex-start;
 }
 
 .app__timeline-item {
