@@ -70,16 +70,16 @@ export const skills = [
 // ---------------------------------------------------------------------------
 export const experience = [
   {
-    role: "Software Developer",
+    role: "AI Backend Engineer",
     company: "Techlogix",
     period: "July 2025 – Present",
-    desc: "Designed and built AI-driven, full-stack applications by integrating machine learning models into scalable production systems. Developed backend and frontend infrastructure supporting end-to-end ML pipelines, partnering with cross-functional teams to ship data-powered features.",
+    desc: "Built and scaled AI-powered backend systems using Python, FastAPI, Django, LangGraph, and vector databases — enabling semantic search, RAG pipelines, intelligent automation, and AI inference workflows for enterprise applications processing 1,000+ medical imaging records, contributing to a 21% improvement in diagnostic accuracy over older workflows. Engineered secure, cloud-native REST APIs and microservices on AWS EC2 with Nginx, reducing average API response latency by 27% through caching and query optimization, and integrated deep learning models, computer vision pipelines, and Redis caching with Docker-based CI/CD to improve reliability across healthcare and retail domains.",
   },
   {
-    role: "Software Developer",
+    role: "Software Engineer",
     company: "Contour Software",
     period: "Mar 2025 – June 2025",
-    desc: "Built core features for an Employee Management System using .NET Web APIs and MVC architecture. Applied dependency injection, LINQ, and generics for clean, modular, type-safe code, and developed secure RESTful APIs for CRUD operations while strengthening system stability through robust exception handling.",
+    desc: "Developed AI backend systems with Python, FastAPI, Django, LangGraph, and ChromaDB — building RAG pipelines, semantic search, and multi-agent workflows. Built AI-driven backend APIs for customer support, integrating LLMs, vector embeddings, and document retrieval to automate ticket routing and improve response accuracy.",
   },
   {
     role: "Teaching Assistant",
@@ -88,10 +88,10 @@ export const experience = [
     desc: "Supported instruction for Software Design and Analysis, Databases, and Computer Networks Lab — grading, leading review sessions, and helping students work through difficult technical concepts.",
   },
   {
-    role: "Software Engineer Intern",
+    role: "Web Development Intern",
     company: "Wateen Telecom",
     period: "Jun 2024 – Aug 2024",
-    desc: "Built a real-time .NET Core application using MVC architecture, including a custom logging system with middleware for automatic HTTP request/response tracking. Logged critical data to SQL and local storage for auditability, and developed APIs to streamline log setup — reducing error detection time by 30% and improving system scalability.",
+    desc: "Designed and developed secure RESTful APIs to enable smooth cross-platform communication, third-party integrations, and efficient data exchange.",
   },
   {
     role: "Web Developer Intern",
