@@ -113,6 +113,89 @@ Technical Stack
 LangGraph, Gemini 2.5 Flash, ChromaDB, sentence-transformers, FastAPI, SQLAlchemy, SQLite, Server-Sent Events, React, Vite, Tailwind`,
   },
   {
+    id: "dental-voice-agent",
+    title: "AI Voice Receptionist for Dental Practices",
+    description:
+      "Answers after-hours calls, books real appointments",
+    metaDescription:
+      "Brightline Dental Voice Agent — a Vapi-orchestrated voice AI receptionist that answers a dental practice's after-hours calls, books appointments against a live Cal.com calendar, texts confirmations, and escalates emergencies to staff.",
+    // Card thumbnail stays an image; the carousel leads with the demo video.
+    imgUrl: img("dental-voice-agent", "thumb.webp"),
+    screenshots: [
+      img("dental-voice-agent", "demo.mp4"),
+      img("dental-voice-agent", "1.webp"),
+      img("dental-voice-agent", "2.webp"),
+      img("dental-voice-agent", "3.webp"),
+    ],
+    caseStudy: `Overview
+
+Brightline Dental's after-hours front desk is a voice AI agent that picks up the practice's calls once the office closes. It talks the caller through booking, checks live calendar availability, holds a real appointment, and texts a confirmation before hanging up. Anything it shouldn't handle alone — a dental emergency, an insurance question, a booking system that won't respond — gets escalated to staff instead of guessed at. Every call lands in a dashboard with its intent, outcome, transcript, and recording.
+
+The Problem
+
+A practice that closes at 5pm loses every booking attempt made between 5pm and 8am. Those calls go to voicemail, and most of those callers never ring back — they book with whoever picks up next. It isn't really a staffing problem; it's a coverage problem. Demand keeps arriving during the fifteen hours a day nobody is at the desk, and the revenue quietly leaks out with it.
+
+The Solution
+
+The agent answers the phone and handles the call end to end. It books appointments against live calendar availability and sends an SMS confirmation automatically. It triages emergencies, so a knocked-out tooth or heavy bleeding is never dropped into a routine slot. It refuses to guess on insurance, pricing, or clinical questions, logging them for staff rather than improvising an answer that could be wrong. When something breaks — the booking system is down, a slot gets taken mid-call — it takes the caller's details and promises a callback instead of dropping the line. Underneath, Vapi handles real-time voice orchestration while a separate tool layer owns everything that has to be exact: booking, date and time conversion, and phone number confirmation.
+
+Key Challenges
+
+That split between the model and the tool layer is the design decision the whole system rests on. LLMs are confident but unreliable at date math, so the agent never converts "Thursday afternoon" into a calendar timestamp itself — it hands the raw phrase to a tool that resolves it deterministically. The same layer reads the caller's phone number back digit by digit before booking, which catches transcription errors while they're still cheap to fix rather than after a missed appointment. Emergency detection runs two independent checks, model classification plus keyword screening, so a case the model mislabels still gets caught by the other. And every failure mode had to produce a natural spoken recovery, because on a phone call there is no error state a caller will tolerate — only silence, which reads as a hang-up.
+
+Outcome
+
+Streaming end-to-end response latency lands around 0.2 seconds, which is the difference between a conversation and a bot with a noticeable delay — callers talk to it the way they'd talk to a receptionist. Bookings that would have gone to voicemail and been lost now show up on the calendar overnight, and every call is logged with its outcome and transcript, so staff can review exactly what the agent handled and what it correctly refused to.
+
+Technical Stack
+
+Vapi, Groq, ElevenLabs, Deepgram Nova-2, Twilio, Cal.com API v2, Supabase, Next.js, Vercel`,
+  },
+  {
+    id: "ai-inbox-manager",
+    title: "Self-Hosted AI Inbox Manager with RAG",
+    description:
+      "Sorts the inbox and drafts replies, never sends",
+    metaDescription:
+      "Self-Hosted AI Inbox Manager — an n8n workflow that labels every email by category and urgency and drafts RAG-grounded replies from the business's own policy documents, with no send or delete capability anywhere in the system.",
+    // Card thumbnail stays an image; the carousel leads with the demo video.
+    imgUrl: img("ai-inbox-manager", "thumb.webp"),
+    screenshots: [
+      img("ai-inbox-manager", "demo.mp4"),
+      img("ai-inbox-manager", "1.webp"),
+      img("ai-inbox-manager", "2.webp"),
+      img("ai-inbox-manager", "3.webp"),
+      img("ai-inbox-manager", "4.webp"),
+    ],
+    caseStudy: `Overview
+
+A self-hosted email automation system that reads an inbox, classifies every message by category and urgency, and drafts a reply grounded in the business's own policy documents using retrieval-augmented generation — all without ever auto-sending. It runs entirely on infrastructure the client controls, with no third-party SaaS anywhere in the mail path.
+
+The Problem
+
+A business inbox taking 100+ emails a day costs someone real time every morning just sorting mail before a single reply gets written. Sales leads, support tickets, and billing disputes sit in the same pile as newsletters. Most "AI email" tools answer this by auto-sending replies or routing mail through a third-party service, and those are exactly the two things most businesses won't accept: they don't want a machine speaking for them unsupervised, and they don't want their customer correspondence leaving their own infrastructure.
+
+The Solution
+
+An n8n workflow handles the full lifecycle of an email, right up to the final send. It sorts every message into labels automatically — Sales, Billing, Urgent, Newsletter, and so on — then judges it for category, urgency, sentiment, and a confidence score. Where a reply is owed, it drafts one grounded in the business's own policy documents, so it never invents a price, a policy, or a date it wasn't given. Newsletters and automated notifications get labeled and skipped rather than answered, so the noise doesn't generate work. Nothing is ever sent or deleted: each draft sits in its own thread waiting for a human to approve it.
+
+How It Works
+
+Five stages carry each message through. Intake fetches unread mail. Triage has the LLM classify it into structured data. Draft writes a RAG-grounded reply pulled from a self-hosted knowledge base. Collect merges the branches and logs the run. Write-back applies the labels, marks the message read, and creates the draft in-thread. The knowledge base has its own ingestion workflow, so updating a policy document and re-running a single step is enough to change every future reply — no redeploy, no prompt editing.
+
+Safety by Design
+
+The Gmail credentials are scoped to read, label, and draft only, which means there is no send or delete capability anywhere in the system — not disabled, not guarded by a flag, simply absent. The trigger ships disabled by default, and the recommended setup only lets the workflow see mail a person has explicitly opted in with a label. The safety property isn't a rule the model is asked to follow; it's the shape of the permissions it runs under.
+
+Outcome
+
+The morning sort disappears. Mail arrives already categorized and prioritized, the replies that can be answered from existing policy are already written and waiting in-thread, and the ones that need judgment are the only ones a person has to think about. Because the whole stack is self-hosted and the mail path never touches an outside service, it fits the businesses that had the strongest reason to want this and the strongest reason to refuse the usual version of it.
+
+Technical Stack
+
+n8n, Docker Compose, PostgreSQL, Qdrant, Gmail OAuth2, Gemini`,
+  },
+  {
     id: "churn-radar",
     title: "AI-Powered Customer Churn Prediction Dashboard",
     description:
