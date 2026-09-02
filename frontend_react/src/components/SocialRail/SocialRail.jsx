@@ -10,19 +10,12 @@ import "./SocialRail.scss";
 // copies on top of each other.
 const links = [
   {
-    id: "linkedin",
-    label: "LinkedIn",
-    Icon: FaLinkedinIn,
-    href: profile.socials.linkedin,
-    external: true,
-  },
-  {
     id: "email",
     label: profile.email,
     Icon: FiMail,
     href: `mailto:${profile.email}`,
     external: false,
-  },
+  }
 ];
 
 const SocialRail = () => (
