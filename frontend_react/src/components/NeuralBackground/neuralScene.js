@@ -1,6 +1,10 @@
 // The site-wide background: a sparse, drifting constellation behind every
 // section. Deliberately quiet; the hero globe is the focal point.
 //
+// - Stars near a mouse cursor drift toward it and link to it (mouse and
+//   trackpad only; touch screens have no hovering cursor).
+// - On load the stars fly in from scattered positions and settle (~1.3s).
+//
 // One viewport-sized canvas, fixed behind the page, so drawing cost depends
 // on screen size and never on how long the page is.
 import {
@@ -17,6 +21,7 @@ import {
 import {
   createFrameLoop,
   createRenderer,
+  focusUniforms,
   isCompact,
   linkShader,
   readPalette,
@@ -28,18 +33,26 @@ const FOV = 50;
 const CAMERA_Z = 20;
 const DEPTH = 3; // nodes drift ±DEPTH on z for a little parallax depth
 const SCROLL_PARALLAX = 0.25; // field moves at a quarter of the scroll speed
+const ASSEMBLY_MS = 1300;
+const CURSOR_REACH = 0.32; // as a share of the screen's half-height
+const CURSOR_PULL = 0.0009;
 
 const fieldLook = (palette) => ({
-  pointOpacity: palette.dark ? 0.8 : 0.45,
-  lineOpacity: palette.dark ? 0.38 : 0.14,
+  // Light mode needs more ink than dark: dark dots on white don't get the
+  // additive glow that makes the purple stars pop in dark mode.
+  pointOpacity: palette.dark ? 0.8 : 0.85,
+  lineOpacity: palette.dark ? 0.38 : 0.3,
   halo: palette.dark ? 1 : 0,
 });
+
+const easeOutCubic = (x) => 1 - Math.pow(1 - x, 3);
 
 export function createNeuralScene(host) {
   const compact = isCompact();
   const made = createRenderer(host, compact);
   if (!made) return () => {};
   const { renderer, pixelRatio } = made;
+  const hasMouse = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
   const scene = new Scene();
   const camera = new PerspectiveCamera(FOV, 1, 0.1, 100);
@@ -50,10 +63,12 @@ export function createNeuralScene(host) {
   // Visible half-extents of the z=0 plane; recomputed on resize.
   let halfH = 1;
   let halfW = 1;
+  let viewportW = 1;
   let viewportH = 1;
   const computeBounds = (w, h) => {
     halfH = Math.tan((FOV * Math.PI) / 360) * CAMERA_Z;
     halfW = halfH * (w / h);
+    viewportW = w;
     viewportH = h;
   };
   computeBounds(
@@ -62,14 +77,16 @@ export function createNeuralScene(host) {
   );
 
   // Sparse on purpose: a few dozen stars per screen, occasionally linked.
-  const area = (host.clientWidth || window.innerWidth) *
+  const area =
+    (host.clientWidth || window.innerWidth) *
     (host.clientHeight || window.innerHeight);
   const count = compact
     ? 22
     : Math.round(Math.min(44, Math.max(26, area / 34000)));
 
   const positions = new Float32Array(count * 3);
-  const velocities = new Float32Array(count * 3);
+  const velocities = new Float32Array(count * 3); // steady drift
+  const pull = new Float32Array(count * 2); // extra x/y velocity from the cursor
   const phases = new Float32Array(count);
   const speeds = new Float32Array(count);
   for (let i = 0; i < count; i++) {
@@ -82,6 +99,19 @@ export function createNeuralScene(host) {
     phases[i] = Math.random() * Math.PI * 2;
     speeds[i] = 0.6 + Math.random() * 1.0;
   }
+
+  // Load assembly: every star starts far away and behind, and eases home.
+  const home = positions.slice();
+  const scattered = new Float32Array(count * 3);
+  for (let i = 0; i < count; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const spread = 1.6 + Math.random() * 1.2;
+    scattered[i * 3] = home[i * 3] + Math.cos(angle) * halfW * spread;
+    scattered[i * 3 + 1] = home[i * 3 + 1] + Math.sin(angle) * halfH * spread;
+    scattered[i * 3 + 2] = -12 - Math.random() * 10;
+  }
+  positions.set(scattered);
+  let assemblyStart = 0; // set on the first rendered frame
 
   let palette = readPalette();
   let look = fieldLook(palette);
@@ -101,6 +131,7 @@ export function createNeuralScene(host) {
       uPixelRatio: { value: pixelRatio },
       uDepthFade: { value: 0 },
       uRadius: { value: 1 },
+      ...focusUniforms(),
     },
     transparent: true,
     depthWrite: false,
@@ -108,7 +139,8 @@ export function createNeuralScene(host) {
   });
   group.add(new Points(pointGeometry, pointMaterial));
 
-  const maxSegments = (count * (count - 1)) / 2;
+  // Star-to-star links, plus up to one link per star to the cursor.
+  const maxSegments = (count * (count - 1)) / 2 + count;
   const linePositions = new Float32Array(maxSegments * 6);
   const lineAlphas = new Float32Array(maxSegments * 2);
   const lineGeometry = new BufferGeometry();
@@ -121,6 +153,7 @@ export function createNeuralScene(host) {
       uOpacity: { value: look.lineOpacity },
       uDepthFade: { value: 0 },
       uRadius: { value: 1 },
+      ...focusUniforms(),
     },
     transparent: true,
     depthWrite: false,
@@ -147,27 +180,40 @@ export function createNeuralScene(host) {
     const w = host.clientWidth;
     const h = host.clientHeight;
     if (!w || !h) return;
-    const prevW = halfW;
-    const prevH = halfH;
+    const sx = halfW;
+    const sy = halfH;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
     computeBounds(w, h);
     // Stretch existing nodes into the new bounds rather than re-seeding.
     for (let i = 0; i < count; i++) {
-      positions[i * 3] *= halfW / prevW;
-      positions[i * 3 + 1] *= halfH / prevH;
+      positions[i * 3] *= halfW / sx;
+      positions[i * 3 + 1] *= halfH / sy;
+      home[i * 3] *= halfW / sx;
+      home[i * 3 + 1] *= halfH / sy;
     }
   };
 
-  // Gentle tilt toward the cursor.
+  // Cursor: drives the gentle tilt, and (with a mouse) the attraction.
   let targetX = 0;
   let targetY = 0;
   let parallaxX = 0;
   let parallaxY = 0;
+  let cursorClientX = 0;
+  let cursorClientY = 0;
+  let cursorInside = false;
   const onPointerMove = (e) => {
     targetX = (e.clientX / window.innerWidth) * 2 - 1;
     targetY = (e.clientY / window.innerHeight) * 2 - 1;
+    if (e.pointerType === "mouse") {
+      cursorClientX = e.clientX;
+      cursorClientY = e.clientY;
+      cursorInside = true;
+    }
+  };
+  const onPointerLeave = () => {
+    cursorInside = false;
   };
 
   // Scroll parallax: the field drifts with the page, slower than the content.
@@ -178,35 +224,70 @@ export function createNeuralScene(host) {
     lastScrollY = window.scrollY;
   };
 
-  const bounce = (index, limit) => {
+  const bounce = (index, limit, vel) => {
     if (positions[index] > limit) {
       positions[index] = limit;
-      velocities[index] = -Math.abs(velocities[index]);
+      vel[index] = -Math.abs(vel[index]);
     } else if (positions[index] < -limit) {
       positions[index] = -limit;
-      velocities[index] = Math.abs(velocities[index]);
+      vel[index] = Math.abs(vel[index]);
     }
   };
 
   const frame = (dt, seconds) => {
+    const nowMs = seconds * 1000;
+    if (!assemblyStart) assemblyStart = nowMs;
+    const assembly = Math.min(1, (nowMs - assemblyStart) / ASSEMBLY_MS);
+    const assembling = assembly < 1;
+
     const scrollShift =
       pendingScroll * ((2 * halfH) / viewportH) * SCROLL_PARALLAX;
     pendingScroll = 0;
 
-    for (let i = 0; i < count; i++) {
-      const ix = i * 3;
-      positions[ix] += velocities[ix] * dt;
-      positions[ix + 1] += velocities[ix + 1] * dt + scrollShift;
-      positions[ix + 2] += velocities[ix + 2] * dt;
-      // Scrolling wraps nodes around vertically so the field never empties;
-      // normal drift bounces off the edges.
-      if (scrollShift !== 0) {
-        if (positions[ix + 1] > halfH) positions[ix + 1] -= 2 * halfH;
-        else if (positions[ix + 1] < -halfH) positions[ix + 1] += 2 * halfH;
+    // Cursor position on the field's plane (world units).
+    const reach = halfH * CURSOR_REACH;
+    const cursorActive = hasMouse && cursorInside && !assembling;
+    const cursorX = (cursorClientX / viewportW) * 2 * halfW - halfW;
+    const cursorY = halfH - (cursorClientY / viewportH) * 2 * halfH;
+
+    if (assembling) {
+      const e = easeOutCubic(assembly);
+      for (let i = 0; i < count * 3; i++) {
+        positions[i] = scattered[i] + (home[i] - scattered[i]) * e;
       }
-      bounce(ix, halfW);
-      bounce(ix + 1, halfH);
-      bounce(ix + 2, DEPTH);
+    } else {
+      const damping = Math.pow(0.96, dt);
+      for (let i = 0; i < count; i++) {
+        const ix = i * 3;
+        const px = i * 2;
+
+        if (cursorActive) {
+          const dx = cursorX - positions[ix];
+          const dy = cursorY - positions[ix + 1];
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < reach && dist > 0.4) {
+            pull[px] += (dx / dist) * CURSOR_PULL * dt;
+            pull[px + 1] += (dy / dist) * CURSOR_PULL * dt;
+          }
+        }
+        pull[px] *= damping;
+        pull[px + 1] *= damping;
+
+        positions[ix] += (velocities[ix] + pull[px]) * dt;
+        positions[ix + 1] +=
+          (velocities[ix + 1] + pull[px + 1]) * dt + scrollShift;
+        positions[ix + 2] += velocities[ix + 2] * dt;
+
+        // Scrolling wraps nodes around vertically so the field never empties;
+        // normal drift bounces off the edges.
+        if (scrollShift !== 0) {
+          if (positions[ix + 1] > halfH) positions[ix + 1] -= 2 * halfH;
+          else if (positions[ix + 1] < -halfH) positions[ix + 1] += 2 * halfH;
+        }
+        bounce(ix, halfW, velocities);
+        bounce(ix + 1, halfH, velocities);
+        bounce(ix + 2, DEPTH, velocities);
+      }
     }
     pointGeometry.attributes.position.needsUpdate = true;
     pointMaterial.uniforms.uTime.value = seconds;
@@ -234,6 +315,24 @@ export function createNeuralScene(host) {
           linePositions[o + 4] = positions[b * 3 + 1];
           linePositions[o + 5] = positions[b * 3 + 2];
           const strength = Math.pow(1 - Math.sqrt(distSq) / threshold, 1.4);
+          lineAlphas[segment * 2] = strength;
+          lineAlphas[segment * 2 + 1] = strength;
+          segment++;
+        }
+      }
+      if (cursorActive) {
+        const cx = ax - cursorX;
+        const cy = ay - cursorY;
+        const dist = Math.sqrt(cx * cx + cy * cy);
+        if (dist < reach) {
+          const o = segment * 6;
+          linePositions[o] = ax;
+          linePositions[o + 1] = ay;
+          linePositions[o + 2] = az;
+          linePositions[o + 3] = cursorX;
+          linePositions[o + 4] = cursorY;
+          linePositions[o + 5] = 0;
+          const strength = Math.min(1, Math.pow(1 - dist / reach, 1.2) * 1.3);
           lineAlphas[segment * 2] = strength;
           lineAlphas[segment * 2 + 1] = strength;
           segment++;
@@ -272,12 +371,13 @@ export function createNeuralScene(host) {
   };
 
   window.addEventListener("pointermove", onPointerMove, { passive: true });
+  document.documentElement.addEventListener("pointerleave", onPointerLeave);
+  window.addEventListener("blur", onPointerLeave);
   window.addEventListener("scroll", onScroll, { passive: true });
   document.addEventListener("visibilitychange", onVisibilityChange);
   renderer.domElement.addEventListener("webglcontextlost", onContextLost);
 
   resize();
-  renderer.render(scene, camera);
   loop.start();
 
   return () => {
@@ -285,6 +385,8 @@ export function createNeuralScene(host) {
     sizeWatcher.disconnect();
     stopWatchingTheme();
     window.removeEventListener("pointermove", onPointerMove);
+    document.documentElement.removeEventListener("pointerleave", onPointerLeave);
+    window.removeEventListener("blur", onPointerLeave);
     window.removeEventListener("scroll", onScroll);
     document.removeEventListener("visibilitychange", onVisibilityChange);
     renderer.domElement.removeEventListener("webglcontextlost", onContextLost);

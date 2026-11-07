@@ -1,6 +1,12 @@
 // Pieces shared by the background field and the hero globe: renderer setup,
 // theme colours, the star/link shaders and a frame-capped render loop.
-import { AdditiveBlending, Color, NormalBlending, WebGLRenderer } from "three";
+import {
+  AdditiveBlending,
+  Color,
+  NormalBlending,
+  Vector3,
+  WebGLRenderer,
+} from "three";
 
 /** Phones get lighter scenes: fewer nodes, lower resolution, lower fps. */
 export const isCompact = () => window.innerWidth < 700;
@@ -46,6 +52,12 @@ export function readPalette() {
   };
 }
 
+/** Uniforms every star/link material needs for the focus effect (off). */
+export const focusUniforms = () => ({
+  uFocusAmt: { value: 0 },
+  uFocusDir: { value: new Vector3(0, 0, 1) },
+});
+
 /** Calls `onChange` whenever the site's theme toggle flips data-theme. */
 export function watchTheme(onChange) {
   const observer = new MutationObserver(onChange);
@@ -59,7 +71,9 @@ export function watchTheme(onChange) {
 // Stars: a crisp core, a gentle twinkle and a rare brief sparkle. The glow
 // halo (uHalo) is on in dark mode only; a dark halo on a light page smudges.
 // uDepthFade dims the far side of a 3D object (the globe); the flat
-// background field leaves it at 0.
+// background field leaves it at 0. uFocusAmt/uFocusDir brighten the part of
+// the globe facing a direction (used when a tech icon is hovered); the field
+// leaves uFocusAmt at 0.
 export const starShader = {
   vertexShader: `
     attribute float aPhase;
@@ -70,18 +84,24 @@ export const starShader = {
     uniform float uOpacity;
     uniform float uDepthFade;
     uniform float uRadius;
+    uniform float uFocusAmt;
+    uniform vec3 uFocusDir;
     varying float vAlpha;
     varying float vSparkle;
+    varying float vFocus;
     void main() {
       vec4 world = modelMatrix * vec4(position, 1.0);
       float front = 0.5 + 0.5 * clamp(world.z / uRadius, -1.0, 1.0);
       float depth = mix(1.0, 0.15 + 0.85 * front, uDepthFade);
       float twinkle = 0.72 + 0.28 * sin(uTime * aSpeed + aPhase);
       float sparkle = pow(max(0.0, sin(uTime * aSpeed * 0.35 + aPhase * 1.7)), 40.0);
+      float focus = uFocusAmt * uDepthFade *
+        smoothstep(0.78, 0.97, dot(normalize(world.xyz), uFocusDir));
       vSparkle = sparkle;
-      vAlpha = min(1.0, (uOpacity * twinkle + sparkle * 0.55) * depth);
+      vFocus = focus;
+      vAlpha = min(1.0, (uOpacity * twinkle + sparkle * 0.55 + focus * 0.9) * depth + focus * 0.3);
       gl_Position = projectionMatrix * viewMatrix * world;
-      gl_PointSize = uSize * uPixelRatio * (1.0 + 0.55 * sparkle);
+      gl_PointSize = uSize * uPixelRatio * (1.0 + 0.55 * sparkle + 1.2 * focus);
     }
   `,
   fragmentShader: `
@@ -89,10 +109,11 @@ export const starShader = {
     uniform float uHalo;
     varying float vAlpha;
     varying float vSparkle;
+    varying float vFocus;
     void main() {
       float d = length(gl_PointCoord - 0.5);
       float core = smoothstep(0.24, 0.14, d);
-      float halo = smoothstep(0.5, 0.0, d) * uHalo * (0.25 + 0.75 * vSparkle);
+      float halo = smoothstep(0.5, 0.0, d) * uHalo * (0.25 + 0.75 * max(vSparkle, vFocus));
       float a = (core + halo) * vAlpha;
       if (a <= 0.003) discard;
       gl_FragColor = vec4(uColor, a);
@@ -100,17 +121,22 @@ export const starShader = {
   `,
 };
 
-// Links fade with their per-vertex alpha (distance) and, on the globe, depth.
+// Links fade with their per-vertex alpha (distance) and, on the globe, depth;
+// they also brighten under the same focus as the stars.
 export const linkShader = {
   vertexShader: `
     attribute float alpha;
     uniform float uDepthFade;
     uniform float uRadius;
+    uniform float uFocusAmt;
+    uniform vec3 uFocusDir;
     varying float vAlpha;
     void main() {
       vec4 world = modelMatrix * vec4(position, 1.0);
       float front = 0.5 + 0.5 * clamp(world.z / uRadius, -1.0, 1.0);
-      vAlpha = alpha * mix(1.0, 0.1 + 0.9 * front, uDepthFade);
+      float focus = uFocusAmt * uDepthFade *
+        smoothstep(0.78, 0.97, dot(normalize(world.xyz), uFocusDir));
+      vAlpha = min(1.0, alpha * mix(1.0, 0.1 + 0.9 * front, uDepthFade) + focus * 0.8);
       gl_Position = projectionMatrix * viewMatrix * world;
     }
   `,

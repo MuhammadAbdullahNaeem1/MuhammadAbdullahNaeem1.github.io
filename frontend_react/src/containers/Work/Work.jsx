@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { AiOutlineClose, AiFillPlayCircle } from "react-icons/ai";
 import { AnimatePresence, motion } from "framer-motion";
@@ -61,6 +61,31 @@ const renderCaseStudy = (text) => {
 const Work = () => {
   const [selectedWork, setSelectedWork] = useState(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const portfolioRef = useRef(null);
+
+  // Touch screens can't hover, so there each card's shimmer plays once as it
+  // scrolls into view instead (desktop plays it on hover, in CSS).
+  useEffect(() => {
+    const touch = window.matchMedia("(hover: none)").matches;
+    const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!touch || calm || !portfolioRef.current) return undefined;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-shimmering");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.6 }
+    );
+    portfolioRef.current
+      .querySelectorAll(".app__work-item")
+      .forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!selectedWork) {
@@ -170,6 +195,7 @@ const Work = () => {
       </h2>
 
       <motion.div
+        ref={portfolioRef}
         transition={{ duration: 0.5, delayChildren: 0.5 }}
         className="app__work-portfolio"
       >
@@ -178,6 +204,8 @@ const Work = () => {
             className="app__work-item app__flex"
             key={index}
             onClick={() => handleOpenModal(work)}
+            // Staggers the touch-screen shimmer across a row of cards.
+            style={{ "--shimmer-delay": `${(index % 3) * 0.12}s` }}
           >
             <div className="app__work-img app__flex">
               {work.imgUrl && (

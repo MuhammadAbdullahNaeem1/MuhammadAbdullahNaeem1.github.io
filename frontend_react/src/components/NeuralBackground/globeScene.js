@@ -18,6 +18,7 @@ import {
 import {
   createFrameLoop,
   createRenderer,
+  focusUniforms,
   isCompact,
   linkShader,
   readPalette,
@@ -143,6 +144,7 @@ export function createGlobeScene(host) {
       uPixelRatio: { value: pixelRatio },
       uDepthFade: { value: 1 },
       uRadius: { value: RADIUS },
+      ...focusUniforms(),
     },
     transparent: true,
     depthWrite: false,
@@ -160,12 +162,98 @@ export function createGlobeScene(host) {
       uOpacity: { value: look.lineOpacity },
       uDepthFade: { value: 1 },
       uRadius: { value: RADIUS },
+      ...focusUniforms(),
     },
     transparent: true,
     depthWrite: false,
     blending: palette.blending,
   });
   globe.add(new LineSegments(lineGeometry, lineMaterial));
+
+  // Data pulses: bright points that travel along links and hop to a
+  // neighbouring link at each node, like signals moving through the network.
+  // Only a couple of dozen points, moved a short step per frame.
+  const neighbours = nodes.map(() => []);
+  links.forEach(([a, b]) => {
+    neighbours[a].push(b);
+    neighbours[b].push(a);
+  });
+  const pulseCount = compact ? 14 : 24;
+  const randomNode = () => Math.floor(Math.random() * nodes.length);
+  const nextPulse = (prev) => {
+    let from = prev && prev.hops < 6 ? prev.to : randomNode();
+    if (!neighbours[from].length) from = randomNode();
+    const options = neighbours[from];
+    const to = options.length ? options[Math.floor(Math.random() * options.length)] : from;
+    return {
+      from,
+      to,
+      t: prev ? 0 : Math.random(),
+      speed: 0.012 + Math.random() * 0.012,
+      hops: prev && prev.hops < 6 ? prev.hops + 1 : 0,
+    };
+  };
+  const pulses = Array.from({ length: pulseCount }, () => nextPulse(null));
+  const pulsePositions = new Float32Array(pulseCount * 3);
+  const pulseGeometry = new BufferGeometry();
+  pulseGeometry.setAttribute("position", new BufferAttribute(pulsePositions, 3));
+  // Phase π/2 with zero speed holds the shared twinkle at full brightness.
+  pulseGeometry.setAttribute(
+    "aPhase",
+    new BufferAttribute(new Float32Array(pulseCount).fill(Math.PI / 2), 1)
+  );
+  pulseGeometry.setAttribute(
+    "aSpeed",
+    new BufferAttribute(new Float32Array(pulseCount), 1)
+  );
+  const pulseMaterial = new ShaderMaterial({
+    ...starShader,
+    uniforms: {
+      uColor: { value: palette.color.clone() },
+      uOpacity: { value: 1 },
+      uHalo: { value: look.halo },
+      uTime: { value: 0 },
+      uSize: { value: compact ? 8 : 10 },
+      uPixelRatio: { value: pixelRatio },
+      uDepthFade: { value: 1 },
+      uRadius: { value: RADIUS },
+      ...focusUniforms(),
+    },
+    transparent: true,
+    depthWrite: false,
+    blending: palette.blending,
+  });
+  globe.add(new Points(pulseGeometry, pulseMaterial));
+
+  // Icon focus: hovering one of the hero's tech icons brightens the side of
+  // the globe facing it.
+  const header = host.closest(".app__header");
+  const icons = header ? [...header.querySelectorAll(".circle-cmp")] : [];
+  const focusDir = pointMaterial.uniforms.uFocusDir.value;
+  const focusTarget = focusDir.clone();
+  let focusAmount = 0;
+  let focusWanted = 0;
+  const iconHandlers = icons.map((icon) => {
+    const enter = () => {
+      const g = host.getBoundingClientRect();
+      const r = icon.getBoundingClientRect();
+      const radius = g.width / 2 || 1;
+      focusTarget
+        .set(
+          (r.left + r.width / 2 - (g.left + g.width / 2)) / radius,
+          -(r.top + r.height / 2 - (g.top + g.height / 2)) / radius,
+          0.75
+        )
+        .normalize();
+      focusWanted = 1;
+    };
+    const leave = () => {
+      focusWanted = 0;
+    };
+    icon.addEventListener("pointerenter", enter);
+    icon.addEventListener("pointerleave", leave);
+    return { icon, enter, leave };
+  });
 
   const applyTheme = () => {
     palette = readPalette();
@@ -175,10 +263,12 @@ export function createGlobeScene(host) {
     pointMaterial.uniforms.uHalo.value = look.halo;
     lineMaterial.uniforms.uColor.value.copy(palette.color);
     lineMaterial.uniforms.uOpacity.value = look.lineOpacity;
-    pointMaterial.blending = palette.blending;
-    lineMaterial.blending = palette.blending;
-    pointMaterial.needsUpdate = true;
-    lineMaterial.needsUpdate = true;
+    pulseMaterial.uniforms.uColor.value.copy(palette.color);
+    pulseMaterial.uniforms.uHalo.value = look.halo;
+    [pointMaterial, lineMaterial, pulseMaterial].forEach((m) => {
+      m.blending = palette.blending;
+      m.needsUpdate = true;
+    });
     renderer.render(scene, camera);
   };
 
@@ -210,6 +300,30 @@ export function createGlobeScene(host) {
     globe.rotation.y = spin + tiltX * 0.3;
     globe.rotation.x = 0.32 + tiltY * 0.15;
     pointMaterial.uniforms.uTime.value = seconds;
+
+    for (let i = 0; i < pulseCount; i++) {
+      let p = pulses[i];
+      p.t += p.speed * dt;
+      if (p.t >= 1) {
+        p = nextPulse(p);
+        pulses[i] = p;
+      }
+      const a = nodes[p.from];
+      const b = nodes[p.to];
+      pulsePositions[i * 3] = a[0] + (b[0] - a[0]) * p.t;
+      pulsePositions[i * 3 + 1] = a[1] + (b[1] - a[1]) * p.t;
+      pulsePositions[i * 3 + 2] = a[2] + (b[2] - a[2]) * p.t;
+    }
+    pulseGeometry.attributes.position.needsUpdate = true;
+
+    const focusEase = 1 - Math.pow(1 - 0.12, dt);
+    focusAmount += (focusWanted - focusAmount) * focusEase;
+    focusDir.lerp(focusTarget, focusEase).normalize();
+    [pointMaterial, lineMaterial].forEach((m) => {
+      m.uniforms.uFocusAmt.value = focusAmount;
+      m.uniforms.uFocusDir.value.copy(focusDir);
+    });
+
     renderer.render(scene, camera);
   };
 
@@ -254,6 +368,12 @@ export function createGlobeScene(host) {
     window.removeEventListener("pointermove", onPointerMove);
     document.removeEventListener("visibilitychange", onVisibilityChange);
     renderer.domElement.removeEventListener("webglcontextlost", onContextLost);
+    iconHandlers.forEach(({ icon, enter, leave }) => {
+      icon.removeEventListener("pointerenter", enter);
+      icon.removeEventListener("pointerleave", leave);
+    });
+    pulseGeometry.dispose();
+    pulseMaterial.dispose();
     pointGeometry.dispose();
     lineGeometry.dispose();
     pointMaterial.dispose();
