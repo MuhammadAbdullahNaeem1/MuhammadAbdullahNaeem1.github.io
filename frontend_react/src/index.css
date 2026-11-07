@@ -58,6 +58,23 @@ img {
   background: var(--primary-color);
 }
 
+/* Sections alternate white/tinted backgrounds in light mode, but in dark mode
+   the "white" sections came out as lighter grey bands (#191b22) between the
+   near-black ones, and the starfield crossing those seams made them stand out.
+   One continuous dark background instead; cards keep --white-color, so they
+   still read as raised surfaces on it. */
+:root[data-theme="dark"] .app__whitebg {
+  background-color: var(--primary-color);
+}
+
+/* The footer's fixed slate (#2f2e41) read as a grey slab under the dark page.
+   Continue the page background instead, with a hairline marking its edge.
+   Its white icons and text keep strong contrast on the darker colour. */
+:root[data-theme="dark"] .app__footer {
+  background-color: var(--primary-color);
+  border-top: 1px solid var(--lightGray-color);
+}
+
 :root[data-theme="dark"] .app__header-badge .header-photo {
   background: radial-gradient(circle at 50% 32%, #2a2f45 0%, #14161d 100%);
   /* The white ring is intentional in light mode; in dark mode --white-color

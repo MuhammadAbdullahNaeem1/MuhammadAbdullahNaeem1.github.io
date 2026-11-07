@@ -10,6 +10,7 @@ import {
 } from "./containers";
 
 import { Navbar, Footer, MobileNav, SocialRail } from "./components";
+import NeuralBackground from "./components/NeuralBackground/NeuralBackground";
 import "./App.scss";
 
 const App = () => {
@@ -23,6 +24,9 @@ const App = () => {
       <Certifications />
       <Contact />
       <Footer />
+      {/* After the sections on purpose: the fixed layer has to paint over
+          their backgrounds (content is lifted above it in its stylesheet). */}
+      <NeuralBackground />
       <SocialRail />
       <MobileNav />
     </div>

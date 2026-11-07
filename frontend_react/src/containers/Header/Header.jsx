@@ -6,6 +6,7 @@ import { BiNetworkChart } from "react-icons/bi";
 
 import { AppWrap } from "../../wrapper";
 import { images } from "../../constants";
+import NeuralGlobe from "../../components/NeuralBackground/NeuralGlobe";
 import profilePhoto from "../../assets/profile.png";
 import profilePhotoDark from "../../assets/profile-dark.jpeg";
 import "./Header.scss";
@@ -124,10 +125,8 @@ const Header = () => {
         transition={{ duration: 0.5, delayChildren: 0.5 }}
         className="app__header-img"
       >
-        {/* The gradient circle that used to sit behind this was sized off the
-            full-height column, so it floated well above the artwork instead of
-            backing it. Removed rather than rescaled — the illustration reads
-            cleaner without it. */}
+        {/* Rotating network globe, centred behind the illustration. */}
+        <NeuralGlobe />
         <motion.img
           src={images.programmer}
           alt="profile_bg"

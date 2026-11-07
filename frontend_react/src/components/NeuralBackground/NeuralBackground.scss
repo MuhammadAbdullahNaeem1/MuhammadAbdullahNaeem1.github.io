@@ -1,0 +1,41 @@
+// One fixed layer behind the whole page, so the network is present in every
+// section as you scroll. It covers the viewport only, so its drawing cost
+// doesn't grow with the length of the page.
+.app__neural {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  // Large-viewport height: on phones this stops the canvas resizing (and
+  // re-allocating) every time the browser's address bar slides in or out.
+  height: 100lvh;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+
+  // Fades in once the scene has actually started, never popping in.
+  opacity: 0;
+  transition: opacity 1.2s ease;
+
+  &.is-ready {
+    opacity: 1;
+  }
+
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// Layering. Section backgrounds stay below the network, while everything a
+// visitor reads or clicks sits above it. Cards and the footer bar therefore
+// hide the field behind them, so it only shows in open space and never runs
+// across text.
+.app__wrapper,
+.app__navigation,
+.app__footer {
+  position: relative;
+  z-index: 1;
+}
