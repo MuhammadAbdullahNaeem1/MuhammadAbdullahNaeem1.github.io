@@ -22,7 +22,7 @@ const projects = [
     id: "symptomsense-ai",
     title: "AI-Powered Cardiac MRI Diagnostic System",
     description:
-      "	Federated-learning cardiac diagnostics, fully private",
+      "Federated-learning cardiac diagnostics, fully private",
     metaDescription:
       "SymptomSense AI — federated-learning cardiac MRI diagnostics for early Hypertrophic Cardiomyopathy detection, built with SwinUNet, a Random Forest classifier, and a Django/Next.js stack.",
     // Card thumbnail stays an image; the carousel leads with the demo video.
@@ -61,7 +61,8 @@ Next.js, Django, SwinUNet, Random Forest, Federated Learning, TensorFlow, Pandas
   },
     {
     id: "logiflow",
-    title: "⁠Multi-Agent AI Customer Support",
+    repo: "https://github.com/MuhammadAbdullahNaeem1/Multi-Agent-AI-Customer-Support",
+    title: "Multi-Agent AI Customer Support",
     description:
       "Multi-agent system that triages and resolves support tickets",
     metaDescription:
@@ -114,6 +115,7 @@ LangGraph, Gemini 2.5 Flash, ChromaDB, sentence-transformers, FastAPI, SQLAlchem
   },
   {
     id: "dental-voice-agent",
+    repo: "https://github.com/MuhammadAbdullahNaeem1/After-Hours-Front-Desk",
     title: "AI Voice Receptionist for Dental Practices",
     description:
       "Answers after-hours calls, books real appointments",
@@ -153,6 +155,7 @@ Vapi, Groq, ElevenLabs, Deepgram Nova-2, Twilio, Cal.com API v2, Supabase, Next.
   },
   {
     id: "ai-inbox-manager",
+    repo: "https://github.com/MuhammadAbdullahNaeem1/Self-Hosted-AI-Inbox-Manager-Gmail-RAG",
     title: "Self-Hosted AI Inbox Manager with RAG",
     description:
       "Sorts the inbox and drafts replies, never sends",
@@ -197,6 +200,7 @@ n8n, Docker Compose, PostgreSQL, Qdrant, Gmail OAuth2, Gemini`,
   },
   {
     id: "churn-radar",
+    repo: "https://github.com/MuhammadAbdullahNaeem1/AI-Powered-Customer-Churn-Prediction-Dashboard",
     title: "AI-Powered Customer Churn Prediction Dashboard",
     description:
       "Predicts which customers will churn and what to do",
@@ -240,6 +244,7 @@ Next.js, Tailwind, Recharts, FastAPI, XGBoost, scikit-learn, SHAP, pandas, SQLit
   },
   {
     id: "nl2sql",
+    repo: "https://github.com/MuhammadAbdullahNaeem1/AI-Powered-NL2SQL-Analytics-Assistant",
     title: "AI-Powered NL2SQL Analytics Assistant",
     description:
       "Plain-English questions turned into live SQL",
@@ -360,6 +365,7 @@ Next.js, React, Node.js, MongoDB, Styled Components`,
   },
   {
     id: "legal-doc-intelligence",
+    repo: "https://github.com/MuhammadAbdullahNaeem1/Legal-Document-Intelligence-Platform-RAG",
     title: "Legal Document Intelligence Platform RAG",
     description:
       "Question any contract, get answers with cited proof",

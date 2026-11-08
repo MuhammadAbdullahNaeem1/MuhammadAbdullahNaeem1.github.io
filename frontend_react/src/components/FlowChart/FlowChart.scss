@@ -1,0 +1,151 @@
+// Colours come from the site's theme variables, so the chart follows the
+// light/dark toggle. "Outline" is the muted connector/box colour; the accent
+// (--secondary-color) marks the selected step, its connectors and the dots.
+.app__flow {
+  --flow-outline: color-mix(in srgb, var(--gray-color) 60%, transparent);
+  --flow-outline-strong: color-mix(in srgb, var(--gray-color) 75%, transparent);
+  --flow-surface: color-mix(in srgb, var(--black-color) 3%, var(--white-color));
+  --flow-node: color-mix(in srgb, var(--black-color) 5%, var(--white-color));
+  --flow-selected: color-mix(in srgb, var(--secondary-color) 16%, var(--white-color));
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  font-family: var(--font-base);
+}
+
+.app__flow-card {
+  border-radius: 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--gray-color) 25%, transparent);
+  background: var(--flow-surface);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  // Keeps the animation's repaints inside the card.
+  contain: paint;
+
+  &.is-paused .app__flow-edge.is-active {
+    animation-play-state: paused;
+  }
+}
+
+.app__flow-svg {
+  display: block;
+  width: 100%;
+  min-width: 560px; // phones scroll sideways rather than shrinking the text
+  height: auto;
+}
+
+.app__flow-edge {
+  stroke: var(--flow-outline);
+
+  &.is-active {
+    stroke: var(--secondary-color);
+    stroke-dasharray: 6 5;
+    animation: app-flow-dash 0.9s linear infinite;
+  }
+}
+
+@keyframes app-flow-dash {
+  to {
+    stroke-dashoffset: -11;
+  }
+}
+
+.app__flow-arrow {
+  fill: var(--flow-outline-strong);
+
+  &.is-active {
+    fill: var(--secondary-color);
+  }
+}
+
+.app__flow-particle {
+  fill: var(--secondary-color);
+  pointer-events: none;
+}
+
+.app__flow-label {
+  fill: var(--gray-color);
+  font-size: 10.5px;
+}
+
+.app__flow-node {
+  cursor: pointer;
+  outline: none;
+
+  rect {
+    fill: var(--flow-node);
+    stroke: var(--flow-outline-strong);
+    transition: fill 0.2s ease, stroke 0.2s ease;
+  }
+
+  &:hover rect {
+    stroke: color-mix(in srgb, var(--secondary-color) 70%, transparent);
+  }
+
+  &:focus-visible rect,
+  &.is-selected rect {
+    stroke: var(--secondary-color);
+  }
+
+  &.is-selected rect {
+    fill: var(--flow-selected);
+  }
+
+  text {
+    pointer-events: none;
+  }
+}
+
+.app__flow-title {
+  fill: var(--black-color);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.app__flow-sub {
+  fill: var(--gray-color);
+  font-size: 10.5px;
+}
+
+.app__flow-detail {
+  padding: 0.85rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--gray-color) 25%, transparent);
+  background: var(--flow-surface);
+
+  p {
+    margin: 0;
+  }
+}
+
+.app__flow-detail-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--black-color);
+}
+
+.app__flow-detail-text {
+  margin-top: 0.25rem !important;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--gray-color);
+}
+
+.app__flow-hint {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--gray-color);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app__flow-edge.is-active {
+    animation: none;
+    stroke-dasharray: none;
+  }
+  .app__flow-particle {
+    display: none;
+  }
+}

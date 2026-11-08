@@ -20,6 +20,8 @@ import {
   createRenderer,
   focusUniforms,
   isCompact,
+  pageCovered,
+  PAGE_COVER_EVENT,
   linkShader,
   readPalette,
   starShader,
@@ -30,9 +32,9 @@ const RADIUS = 1;
 const MAX_NEIGHBOURS = 4;
 
 const globeLook = (palette) => ({
-  pointOpacity: palette.dark ? 0.95 : 0.85,
-  lineOpacity: palette.dark ? 0.5 : 0.32,
-  halo: palette.dark ? 1 : 0,
+  pointOpacity: palette.dark ? 0.95 : 0.9,
+  lineOpacity: palette.dark ? 0.5 : 0.3,
+  halo: palette.dark ? 1 : 0.6,
 });
 
 // Gentle density variation over the sphere: enough to keep the mesh from
@@ -330,7 +332,7 @@ export function createGlobeScene(host) {
   // Only while the hero is in view and the tab is visible.
   let onScreen = true;
   const loop = createFrameLoop({
-    canRun: () => onScreen && !document.hidden,
+    canRun: () => onScreen && !document.hidden && !pageCovered(),
     frame,
   });
   // Dev-only frame-rate readout for testing; removed from production builds.
@@ -354,6 +356,7 @@ export function createGlobeScene(host) {
 
   window.addEventListener("pointermove", onPointerMove, { passive: true });
   document.addEventListener("visibilitychange", onVisibilityChange);
+  window.addEventListener(PAGE_COVER_EVENT, onVisibilityChange);
   renderer.domElement.addEventListener("webglcontextlost", onContextLost);
 
   resize();
@@ -367,6 +370,7 @@ export function createGlobeScene(host) {
     stopWatchingTheme();
     window.removeEventListener("pointermove", onPointerMove);
     document.removeEventListener("visibilitychange", onVisibilityChange);
+    window.removeEventListener(PAGE_COVER_EVENT, onVisibilityChange);
     renderer.domElement.removeEventListener("webglcontextlost", onContextLost);
     iconHandlers.forEach(({ icon, enter, leave }) => {
       icon.removeEventListener("pointerenter", enter);

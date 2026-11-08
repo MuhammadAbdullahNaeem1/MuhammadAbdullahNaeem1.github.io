@@ -23,6 +23,8 @@ import {
   createRenderer,
   focusUniforms,
   isCompact,
+  pageCovered,
+  PAGE_COVER_EVENT,
   linkShader,
   readPalette,
   starShader,
@@ -38,11 +40,11 @@ const CURSOR_REACH = 0.32; // as a share of the screen's half-height
 const CURSOR_PULL = 0.0009;
 
 const fieldLook = (palette) => ({
-  // Light mode needs more ink than dark: dark dots on white don't get the
-  // additive glow that makes the purple stars pop in dark mode.
-  pointOpacity: palette.dark ? 0.8 : 0.85,
-  lineOpacity: palette.dark ? 0.38 : 0.3,
-  halo: palette.dark ? 1 : 0,
+  // Light mode: indigo on white has no additive glow, so the dots carry a bit
+  // more opacity and a gentler tinted halo; links stay faint to keep it airy.
+  pointOpacity: palette.dark ? 0.8 : 0.9,
+  lineOpacity: palette.dark ? 0.38 : 0.26,
+  halo: palette.dark ? 1 : 0.6,
 });
 
 const easeOutCubic = (x) => 1 - Math.pow(1 - x, 3);
@@ -353,7 +355,7 @@ export function createNeuralScene(host) {
   };
 
   const loop = createFrameLoop({
-    canRun: () => !document.hidden,
+    canRun: () => !document.hidden && !pageCovered(),
     frame,
   });
   // Dev-only frame-rate readout for testing; removed from production builds.
@@ -375,6 +377,7 @@ export function createNeuralScene(host) {
   window.addEventListener("blur", onPointerLeave);
   window.addEventListener("scroll", onScroll, { passive: true });
   document.addEventListener("visibilitychange", onVisibilityChange);
+  window.addEventListener(PAGE_COVER_EVENT, onVisibilityChange);
   renderer.domElement.addEventListener("webglcontextlost", onContextLost);
 
   resize();
@@ -389,6 +392,7 @@ export function createNeuralScene(host) {
     window.removeEventListener("blur", onPointerLeave);
     window.removeEventListener("scroll", onScroll);
     document.removeEventListener("visibilitychange", onVisibilityChange);
+    window.removeEventListener(PAGE_COVER_EVENT, onVisibilityChange);
     renderer.domElement.removeEventListener("webglcontextlost", onContextLost);
     pointGeometry.dispose();
     lineGeometry.dispose();

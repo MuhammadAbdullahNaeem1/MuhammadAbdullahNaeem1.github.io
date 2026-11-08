@@ -8,6 +8,8 @@ import {
   WebGLRenderer,
 } from "three";
 
+export { PAGE_COVER_EVENT, pageCovered } from "../../utils/pageCover";
+
 /** Phones get lighter scenes: fewer nodes, lower resolution, lower fps. */
 export const isCompact = () => window.innerWidth < 700;
 
@@ -30,21 +32,25 @@ export function createRenderer(host, compact) {
   const pixelRatio = Math.min(window.devicePixelRatio || 1, compact ? 1.25 : 1.5);
   renderer.setPixelRatio(pixelRatio);
   renderer.setClearColor(0x000000, 0);
+  // One canvas per host: drop any left behind by an earlier instance (e.g. a
+  // hot reload in development) so two can never stack up and overflow.
+  host.querySelectorAll("canvas").forEach((old) => old.remove());
   host.appendChild(renderer.domElement);
   return { renderer, pixelRatio };
 }
 
 /**
- * Dark mode uses the purple accent with additive glow; light mode uses the
- * site's text colour (near-black), which reads clearly on the pale background.
+ * Both themes draw in the site's accent so the effect reads as one design:
+ * the light purple with additive glow in dark mode, the deeper indigo with a
+ * soft normal-blended glow in light mode (near-black dots looked like dust).
  */
 export function readPalette() {
   const root = document.documentElement;
   const styles = getComputedStyle(root);
   const dark = root.getAttribute("data-theme") === "dark";
-  const tone = dark
-    ? styles.getPropertyValue("--secondary-color").trim() || "#8b93ff"
-    : styles.getPropertyValue("--black-color").trim() || "#030303";
+  const tone =
+    styles.getPropertyValue("--secondary-color").trim() ||
+    (dark ? "#8b93ff" : "#313bac");
   return {
     dark,
     color: new Color(tone),
@@ -69,7 +75,7 @@ export function watchTheme(onChange) {
 }
 
 // Stars: a crisp core, a gentle twinkle and a rare brief sparkle. The glow
-// halo (uHalo) is on in dark mode only; a dark halo on a light page smudges.
+// halo (uHalo) is full in dark mode and softer in light mode.
 // uDepthFade dims the far side of a 3D object (the globe); the flat
 // background field leaves it at 0. uFocusAmt/uFocusDir brighten the part of
 // the globe facing a direction (used when a tech icon is hovered); the field
